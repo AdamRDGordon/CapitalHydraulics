@@ -1,0 +1,424 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080b14;--s1:#0d1120;--s2:#111726;--s3:#161d2e;
+  --bd:#1e2640;--bd2:#252e47;
+  --blue:#4a9eff;--blue2:#2a5aaa;--blue3:#1a3a6e;
+  --text:#f0f2f8;--m1:#8090b8;--m2:#5a6585;
+  --green:#22c77a;--amber:#e8b84b;
+}
+body{font-family:var(--font-sans,'Inter',sans-serif);background:var(--bg);color:var(--text);font-size:14px}
+.lbl{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--m2);font-weight:500}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:5px;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .18s;letter-spacing:.02em}
+.btn-p{background:var(--blue);color:#fff}.btn-p:hover{background:#5aaeff}
+.btn-o{background:transparent;color:var(--m1);border:1px solid var(--bd)}.btn-o:hover{border-color:var(--bd2);color:var(--text)}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:20px}
+.tag{display:inline-block;padding:3px 10px;border-radius:3px;font-size:11px;font-weight:500;letter-spacing:.04em}
+.tag-b{background:var(--blue3);color:var(--blue)}
+.tag-g{background:#0a2e1c;color:var(--green)}
+
+/* Responsive layout, page links and scroll effects */
+html{scroll-behavior:smooth}
+a.btn{text-decoration:none}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease,box-shadow .25s ease,border-color .25s ease}
+.reveal.in-view{opacity:1;transform:none}
+.card:hover,.stat-card:hover,.mod-card:hover{box-shadow:0 18px 48px rgba(0,0,0,.22)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none!important}*{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+@media (max-width:980px){
+  nav{height:auto!important;min-height:52px;flex-wrap:wrap!important;gap:12px!important;padding:14px 18px!important}
+  nav>div{flex-wrap:wrap!important;gap:10px!important}
+  [style*="max-width:960px"],[style*="max-width:880px"],[style*="max-width:720px"],[style*="max-width:660px"]{max-width:100%!important}
+  [style*="grid-template-columns:1fr 1fr"],[style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:1fr!important}
+  [style*="padding:60px 32px"],[style*="padding:40px 32px"],[style*="padding:36px 20px"],[style*="padding:24px"]{padding:28px 18px!important}
+  [style*="gap:48px"]{gap:26px!important}
+  [style*="border-right:1px solid"]{border-right:0!important;border-bottom:1px solid var(--bd,var(--border))!important;padding-left:0!important;padding-right:0!important}
+  h1{font-size:clamp(24px,7vw,32px)!important}
+  .btn{white-space:nowrap}
+}
+@media (max-width:640px){
+  body{font-size:13px!important}
+  nav{align-items:flex-start!important}
+  nav .lbl, nav .label{display:none!important}
+  [style*="display:flex;gap:28px"],[style*="display:flex;gap:10px"],[style*="display:flex;gap:56px"]{flex-wrap:wrap!important}
+  [style*="grid-template-columns:1fr 1fr"],[style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:1fr!important}
+  [style*="padding:52px 48px"]{padding:34px 22px!important}
+  [style*="width:100%;max-width:400px"]{max-width:100%!important}
+  input[type=text],input[type=password],select{width:100%!important}
+  table{min-width:760px!important}
+  #aus-map{min-height:260px!important}
+}
+
+</style>
+
+<div style="background:var(--bg)">
+
+  <!-- NAV -->
+  <nav style="background:var(--s1);border-bottom:1px solid var(--bd);padding:0 32px;height:52px;display:flex;align-items:center;justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="width:26px;height:26px;background:var(--blue);border-radius:4px;display:flex;align-items:center;justify-content:center">
+        <i class="ti ti-droplet-filled" style="font-size:14px;color:#fff" aria-hidden="true"></i>
+      </div>
+      <span style="font-size:14px;font-weight:500;letter-spacing:.01em">Capital Hydraulics</span>
+      <span style="color:var(--bd2);font-size:12px">·</span>
+      <span class="lbl">Training Platform</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span class="lbl" style="margin-right:4px">Canberra, Australia</span>
+      <a class="btn btn-o" style="padding:7px 16px;font-size:12px" href="./capital_hydraulics_admin_dashboard_responsive.html">Admin</a>
+      <a class="btn btn-p" style="padding:7px 16px;font-size:12px" href="./capital_hydraulics_platform_v2_responsive.html">Get started <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div style="padding:60px 32px 48px;max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center">
+    <div>
+      <div style="margin-bottom:20px">
+        <span class="tag tag-b" style="margin-bottom:14px;display:inline-block">Australia's hydraulic training platform</span>
+        <h1 style="font-size:32px;font-weight:500;line-height:1.25;color:var(--text);margin-bottom:14px">Hydraulic hose<br>certification for<br><span style="color:var(--blue)">every technician</span></h1>
+        <p style="font-size:14px;color:var(--m1);line-height:1.75;margin-bottom:28px">Australia's dedicated hydraulic hose fittings and techniques training program. Structured modules, AI-powered quizzes, and certified completion — built for field technicians and industrial teams nationwide.</p>
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:36px">
+        <a class="btn btn-p" href="./capital_hydraulics_platform_v2_responsive.html">Start training <i class="ti ti-arrow-right" aria-hidden="true"></i></a>
+      </div>
+      <div style="display:flex;gap:28px">
+        <div><p style="font-size:20px;font-weight:500;color:var(--text)" id="c-learners">0</p><p class="lbl" style="margin-top:3px">Learners trained</p></div>
+        <div style="width:1px;background:var(--bd)"></div>
+        <div><p style="font-size:20px;font-weight:500;color:var(--text)">8</p><p class="lbl" style="margin-top:3px">Core modules</p></div>
+        <div style="width:1px;background:var(--bd)"></div>
+        <div><p style="font-size:20px;font-weight:500;color:var(--text)">80%</p><p class="lbl" style="margin-top:3px">Pass threshold</p></div>
+      </div>
+    </div>
+
+    <!-- AUSTRALIA MAP PANEL -->
+    <div style="background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:20px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:16px;right:16px;text-align:right">
+        <p class="lbl" style="margin-bottom:3px">Active regions</p>
+        <p style="font-size:13px;font-weight:500;color:var(--blue)" id="active-regions">Loading…</p>
+      </div>
+      <p class="lbl" style="margin-bottom:12px">National coverage</p>
+      <div id="map-wrap" style="position:relative">
+        <svg id="aus-map" viewBox="0 0 440 380" width="100%" style="display:block"></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVE STATS STRIP -->
+  <div style="border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);background:var(--s1)">
+    <div style="max-width:960px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:0">
+      <div style="padding:20px 0;border-right:1px solid var(--bd)">
+        <p class="lbl" style="margin-bottom:8px">Companies enrolled</p>
+        <p style="font-size:22px;font-weight:500" id="c-companies">0</p>
+        <p style="font-size:11px;color:var(--green);margin-top:4px"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i> +12% this month</p>
+      </div>
+      <div style="padding:20px 24px;border-right:1px solid var(--bd)">
+        <p class="lbl" style="margin-bottom:8px">Certificates issued</p>
+        <p style="font-size:22px;font-weight:500" id="c-certs">0</p>
+        <p style="font-size:11px;color:var(--green);margin-top:4px"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i> +8% this month</p>
+      </div>
+      <div style="padding:20px 24px;border-right:1px solid var(--bd)">
+        <p class="lbl" style="margin-bottom:8px">Modules completed</p>
+        <p style="font-size:22px;font-weight:500" id="c-mods">0</p>
+        <p style="font-size:11px;color:var(--green);margin-top:4px"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i> +18% this month</p>
+      </div>
+      <div style="padding:20px 24px">
+        <p class="lbl" style="margin-bottom:8px">Avg. completion rate</p>
+        <p style="font-size:22px;font-weight:500">87%</p>
+        <p style="font-size:11px;color:var(--m2);margin-top:4px">across all enrolled teams</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY + MODULE PREVIEW -->
+  <div style="max-width:960px;margin:0 auto;padding:40px 32px;display:grid;grid-template-columns:1fr 1fr;gap:20px">
+
+    <!-- RECENT ACTIVITY -->
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+        <p class="lbl">Recent activity</p>
+        <span class="tag tag-g">Live</span>
+      </div>
+      <div id="activity-feed" style="display:flex;flex-direction:column;gap:0"></div>
+    </div>
+
+    <!-- MODULE OVERVIEW -->
+    <div class="card">
+      <p class="lbl" style="margin-bottom:16px">Training pathway — 8 modules</p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--s2);border-radius:5px;border:1px solid var(--bd)">
+          <div style="width:20px;height:20px;border-radius:50%;background:var(--blue3);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--blue);flex-shrink:0">1</div>
+          <span style="font-size:12px;color:var(--text)">Introduction to Hydraulics</span>
+          <span class="tag tag-b" style="margin-left:auto;font-size:10px">Start here</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--s2);border-radius:5px">
+          <div style="width:20px;height:20px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--m2);flex-shrink:0">2</div>
+          <span style="font-size:12px;color:var(--m1)">Hose Types & Construction</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--s2);border-radius:5px">
+          <div style="width:20px;height:20px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--m2);flex-shrink:0">3</div>
+          <span style="font-size:12px;color:var(--m1)">Fittings & Connectors</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--s2);border-radius:5px">
+          <div style="width:20px;height:20px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--m2);flex-shrink:0">4</div>
+          <span style="font-size:12px;color:var(--m1)">Pressure Ratings & System Design</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--s2);border-radius:5px">
+          <div style="width:20px;height:20px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--m2);flex-shrink:0">5</div>
+          <span style="font-size:12px;color:var(--m1)">Hose Assembly & Crimping</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--s2);border-radius:5px">
+          <div style="width:20px;height:20px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--m2);flex-shrink:0">6</div>
+          <span style="font-size:12px;color:var(--m1)">Leak Detection & Troubleshooting</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--s2);border-radius:5px">
+          <div style="width:20px;height:20px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--m2);flex-shrink:0">7</div>
+          <span style="font-size:12px;color:var(--m1)">Australian Standards & Compliance</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--s2);border-radius:5px">
+          <div style="width:20px;height:20px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--m2);flex-shrink:0">8</div>
+          <span style="font-size:12px;color:var(--m1)">Maintenance & Best Practices</span>
+          <span style="margin-left:auto;font-size:10px;color:var(--m2)">Certificate</span>
+        </div>
+      </div>
+      <a class="btn btn-p" style="width:100%;justify-content:center;margin-top:16px;font-size:12px" href="./capital_hydraulics_platform_v2_responsive.html">
+        Begin training <i class="ti ti-arrow-right" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="border-top:1px solid var(--bd);padding:20px 32px;display:flex;align-items:center;justify-content:space-between;max-width:960px;margin:0 auto">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:20px;height:20px;background:var(--blue);border-radius:3px;display:flex;align-items:center;justify-content:center">
+        <i class="ti ti-droplet-filled" style="font-size:11px;color:#fff" aria-hidden="true"></i>
+      </div>
+      <span style="font-size:12px;color:var(--m2)">Capital Hydraulics Pty Ltd · Canberra, Australia</span>
+    </div>
+    <span style="font-size:11px;color:var(--m2)">© 2026 All rights reserved</span>
+  </div>
+
+</div>
+
+<script>
+const AUS_CITIES = [
+  {name:"Sydney, NSW",x:355,y:232,active:true},
+  {name:"Melbourne, VIC",x:310,y:268,active:true},
+  {name:"Brisbane, QLD",x:358,y:182,active:true},
+  {name:"Canberra, ACT",x:333,y:248,active:true,hq:true},
+  {name:"Adelaide, SA",x:260,y:250,active:true},
+  {name:"Perth, WA",x:120,y:230,active:true},
+  {name:"Darwin, NT",x:215,y:68,active:false},
+  {name:"Hobart, TAS",x:300,y:315,active:false},
+  {name:"Townsville, QLD",x:335,y:128,active:false},
+  {name:"Newcastle, NSW",x:360,y:218,active:false},
+];
+
+const AUS_PATH = "M118,150 L105,168 L95,185 L88,205 L85,225 L88,248 L95,265 L105,278 L118,285 L125,292 L128,305 L132,318 L140,328 L148,332 L155,330 L160,322 L162,310 L165,298 L172,290 L182,285 L195,282 L210,280 L225,278 L240,275 L255,272 L265,268 L272,262 L278,255 L282,248 L280,240 L275,232 L270,225 L268,215 L270,205 L275,196 L282,188 L290,182 L300,178 L312,175 L322,172 L332,170 L340,168 L348,165 L355,160 L362,155 L368,150 L372,143 L374,135 L373,127 L370,120 L365,115 L358,112 L350,111 L342,113 L335,117 L328,122 L322,128 L315,133 L308,137 L300,138 L292,136 L285,132 L278,127 L272,122 L265,118 L258,116 L250,115 L242,116 L235,118 L228,122 L221,127 L215,132 L208,136 L200,138 L192,138 L185,135 L178,130 L172,124 L166,118 L160,114 L153,112 L146,113 L140,116 L135,122 L130,130 L126,140 Z";
+
+const TAS_PATH = "M272,295 L278,290 L285,288 L292,290 L296,297 L295,308 L290,318 L283,325 L275,328 L268,324 L264,315 L265,305 Z";
+
+function buildMap(){
+  const svg = document.getElementById('aus-map');
+  const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
+  defs.innerHTML = `
+    <radialGradient id="pulse-g" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4a9eff" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#4a9eff" stop-opacity="0"/>
+    </radialGradient>
+  `;
+  svg.appendChild(defs);
+
+  const mainland = document.createElementNS('http://www.w3.org/2000/svg','path');
+  mainland.setAttribute('d', AUS_PATH);
+  mainland.setAttribute('fill','#111726');
+  mainland.setAttribute('stroke','#252e47');
+  mainland.setAttribute('stroke-width','1');
+  svg.appendChild(mainland);
+
+  const tas = document.createElementNS('http://www.w3.org/2000/svg','path');
+  tas.setAttribute('d', TAS_PATH);
+  tas.setAttribute('fill','#111726');
+  tas.setAttribute('stroke','#252e47');
+  tas.setAttribute('stroke-width','1');
+  svg.appendChild(tas);
+
+  const stateLines = [
+    "M215,68 L215,280","M270,68 L270,175 L340,175","M215,200 L270,200","M270,240 L340,240 L340,280 L380,280"
+  ];
+  stateLines.forEach(d=>{
+    const l = document.createElementNS('http://www.w3.org/2000/svg','path');
+    l.setAttribute('d',d);
+    l.setAttribute('fill','none');
+    l.setAttribute('stroke','#1e2640');
+    l.setAttribute('stroke-width','0.5');
+    l.setAttribute('stroke-dasharray','3,4');
+    svg.appendChild(l);
+  });
+
+  AUS_CITIES.forEach((city,i)=>{
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+
+    if(city.active){
+      const pulse1 = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      pulse1.setAttribute('cx',city.x);
+      pulse1.setAttribute('cy',city.y);
+      pulse1.setAttribute('r','12');
+      pulse1.setAttribute('fill',city.hq?'#e8b84b':'#4a9eff');
+      pulse1.setAttribute('fill-opacity','0');
+      pulse1.setAttribute('stroke','none');
+      const anim1 = document.createElementNS('http://www.w3.org/2000/svg','animate');
+      anim1.setAttribute('attributeName','r');
+      anim1.setAttribute('values','4;16');
+      anim1.setAttribute('dur','2.5s');
+      anim1.setAttribute('begin', (i*0.4)+'s');
+      anim1.setAttribute('repeatCount','indefinite');
+      const anim2 = document.createElementNS('http://www.w3.org/2000/svg','animate');
+      anim2.setAttribute('attributeName','fill-opacity');
+      anim2.setAttribute('values','0.4;0');
+      anim2.setAttribute('dur','2.5s');
+      anim2.setAttribute('begin',(i*0.4)+'s');
+      anim2.setAttribute('repeatCount','indefinite');
+      pulse1.appendChild(anim1);
+      pulse1.appendChild(anim2);
+      g.appendChild(pulse1);
+    }
+
+    const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot.setAttribute('cx',city.x);
+    dot.setAttribute('cy',city.y);
+    dot.setAttribute('r', city.hq ? '5' : city.active ? '3.5' : '2.5');
+    dot.setAttribute('fill', city.hq ? '#e8b84b' : city.active ? '#4a9eff' : '#2a3550');
+    dot.setAttribute('stroke', city.hq ? '#c8952a' : city.active ? '#2a5aaa' : '#1e2640');
+    dot.setAttribute('stroke-width','1');
+    g.appendChild(dot);
+
+    if(city.active || city.hq){
+      const lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+      lbl.setAttribute('x', city.x + 7);
+      lbl.setAttribute('y', city.y + 4);
+      lbl.setAttribute('font-size','9');
+      lbl.setAttribute('fill', city.hq ? '#e8b84b' : '#8090b8');
+      lbl.setAttribute('font-family','sans-serif');
+      lbl.textContent = city.name.split(',')[0];
+      g.appendChild(lbl);
+    }
+
+    svg.appendChild(g);
+  });
+
+  const connectedPairs = [[0,3],[1,3],[2,3],[4,3],[5,3]];
+  connectedPairs.forEach(([a,b])=>{
+    const c1 = AUS_CITIES[a], c2 = AUS_CITIES[b];
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',c1.x); line.setAttribute('y1',c1.y);
+    line.setAttribute('x2',c2.x); line.setAttribute('y2',c2.y);
+    line.setAttribute('stroke','#1e2640');
+    line.setAttribute('stroke-width','0.5');
+    line.setAttribute('stroke-dasharray','3,4');
+    svg.insertBefore(line, svg.childNodes[2]);
+
+    const dot2 = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot2.setAttribute('cx', (c1.x+c2.x)/2);
+    dot2.setAttribute('cy', (c1.y+c2.y)/2);
+    dot2.setAttribute('r','1.5');
+    dot2.setAttribute('fill','#2a5aaa');
+    const a1 = document.createElementNS('http://www.w3.org/2000/svg','animate');
+    a1.setAttribute('attributeName','cx');
+    a1.setAttribute('values',c1.x+';'+c2.x+';'+c1.x);
+    a1.setAttribute('dur',(3+Math.random()*2).toFixed(1)+'s');
+    a1.setAttribute('repeatCount','indefinite');
+    const a2 = document.createElementNS('http://www.w3.org/2000/svg','animate');
+    a2.setAttribute('attributeName','cy');
+    a2.setAttribute('values',c1.y+';'+c2.y+';'+c1.y);
+    a2.setAttribute('dur', a1.getAttribute('dur'));
+    a2.setAttribute('repeatCount','indefinite');
+    dot2.appendChild(a1); dot2.appendChild(a2);
+    svg.appendChild(dot2);
+  });
+
+  document.getElementById('active-regions').textContent = '6 of 8 states';
+}
+
+const FEED_ITEMS = [
+  {icon:'ti-certificate',text:'Certificate issued — Darren W., Lynx Industries',time:'2 min ago',col:'#22c77a'},
+  {icon:'ti-check',text:'Module 5 passed — Sarah K., BHP Site Services',time:'8 min ago',col:'#4a9eff'},
+  {icon:'ti-user-plus',text:'New enrolment — Mitchell C., Canberra Plant Hire',time:'14 min ago',col:'#4a9eff'},
+  {icon:'ti-check',text:'Module 3 passed — Tom R., Rio Tinto Contractors',time:'31 min ago',col:'#4a9eff'},
+  {icon:'ti-certificate',text:'Certificate issued — Priya N., Hydraulic Solutions Pty',time:'1 hr ago',col:'#22c77a'},
+  {icon:'ti-user-plus',text:'New enrolment — Jake H., Ausgrid Maintenance',time:'2 hrs ago',col:'#4a9eff'},
+];
+
+function buildFeed(){
+  const feed = document.getElementById('activity-feed');
+  feed.innerHTML='';
+  FEED_ITEMS.forEach((item,i)=>{
+    const row = document.createElement('div');
+    row.style.cssText=`display:flex;align-items:flex-start;gap:10px;padding:10px 0;${i<FEED_ITEMS.length-1?'border-bottom:1px solid var(--bd)':''}`;
+    row.innerHTML=`
+      <div style="width:28px;height:28px;border-radius:4px;background:var(--s2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">
+        <i class="ti ${item.icon}" style="font-size:13px;color:${item.col}" aria-hidden="true"></i>
+      </div>
+      <div style="flex:1;min-width:0">
+        <p style="font-size:12px;color:var(--text);line-height:1.5">${item.text}</p>
+        <p style="font-size:11px;color:var(--m2);margin-top:2px">${item.time}</p>
+      </div>
+    `;
+    feed.appendChild(row);
+  });
+}
+
+function animateCount(id, target, duration){
+  const el = document.getElementById(id);
+  if(!el) return;
+  let start=0, step=target/60;
+  const t = setInterval(()=>{
+    start = Math.min(start+step, target);
+    el.textContent = Math.round(start).toLocaleString();
+    if(start>=target) clearInterval(t);
+  }, duration/60);
+}
+
+buildMap();
+buildFeed();
+setTimeout(()=>{
+  animateCount('c-learners',1840,1800);
+  animateCount('c-companies',47,1600);
+  animateCount('c-certs',312,1700);
+  animateCount('c-mods',2640,1900);
+},400);
+
+let feedIdx=0;
+setInterval(()=>{
+  feedIdx=(feedIdx+1)%FEED_ITEMS.length;
+  const feed=document.getElementById('activity-feed');
+  const rows=feed.querySelectorAll('div');
+  if(rows.length){
+    const item=FEED_ITEMS[feedIdx];
+    const newRow=document.createElement('div');
+    newRow.style.cssText='display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd);opacity:0;transition:opacity .5s';
+    newRow.innerHTML=`
+      <div style="width:28px;height:28px;border-radius:4px;background:var(--s2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">
+        <i class="ti ${item.icon}" style="font-size:13px;color:${item.col}" aria-hidden="true"></i>
+      </div>
+      <div style="flex:1;min-width:0">
+        <p style="font-size:12px;color:var(--text);line-height:1.5">${item.text}</p>
+        <p style="font-size:11px;color:var(--m2);margin-top:2px">just now</p>
+      </div>`;
+    feed.insertBefore(newRow,feed.firstChild);
+    setTimeout(()=>newRow.style.opacity='1',50);
+    if(feed.children.length>6) feed.removeChild(feed.lastChild);
+  }
+},6000);
+
+function initScrollEffects(){
+  const targets=[...document.querySelectorAll('.card,.stat-card,.mod-card,#screen-dashboard > div > div,#screen-lesson > div > div,#screen-cert > div > div,body > div > div')];
+  targets.forEach((el,i)=>{if(el.dataset.revealReady)return;el.dataset.revealReady='1';el.classList.add('reveal');el.style.transitionDelay=Math.min(i*35,220)+'ms';});
+  if(!('IntersectionObserver' in window)){targets.forEach(el=>el.classList.add('in-view'));return;}
+  const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in-view');io.unobserve(e.target);}}),{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  targets.forEach(el=>io.observe(el));
+}
+window.addEventListener('load',initScrollEffects);
+const revealObserver=new MutationObserver(()=>initScrollEffects());
+window.addEventListener('load',()=>revealObserver.observe(document.body,{childList:true,subtree:true}));
+
+</script>
