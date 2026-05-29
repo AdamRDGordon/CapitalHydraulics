@@ -1,0 +1,404 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080b14;--s1:#0d1120;--s2:#111726;--s3:#161d2e;
+  --bd:#1e2640;--bd2:#252e47;
+  --blue:#4a9eff;--blue2:#2a5aaa;--blue3:#1a3a6e;
+  --text:#f0f2f8;--m1:#8090b8;--m2:#5a6585;
+  --green:#22c77a;--amber:#e8b84b;--red:#e05555;
+}
+body{font-family:var(--font-sans,'Inter',sans-serif);background:var(--bg);color:var(--text);font-size:14px}
+.lbl{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--m2);font-weight:500}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:5px;font-size:12px;font-weight:500;cursor:pointer;border:none;transition:all .15s}
+.btn-p{background:var(--blue);color:#fff}.btn-p:hover{background:#5aaeff}
+.btn-o{background:transparent;color:var(--m1);border:1px solid var(--bd)}.btn-o:hover{border-color:var(--bd2);color:var(--text)}
+.btn-g{background:transparent;color:var(--green);border:1px solid #0d3320}.btn-g:hover{background:#0a2e1c}
+.tag{display:inline-block;padding:2px 9px;border-radius:3px;font-size:11px;font-weight:500}
+.tag-b{background:var(--blue3);color:var(--blue)}
+.tag-g{background:#0a2e1c;color:var(--green)}
+.tag-a{background:#2a1f08;color:var(--amber)}
+.tag-r{background:#2a0e0e;color:var(--red)}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:8px}
+.tr:hover{background:var(--s2)}
+.prog{height:5px;background:var(--s3);border-radius:3px;overflow:hidden;margin-top:5px}
+.prog-f{height:100%;border-radius:3px}
+input[type=text]{background:var(--s2);border:1px solid var(--bd);border-radius:5px;color:var(--text);font-size:12px;padding:7px 12px;outline:none;transition:border .15s}
+input[type=text]:focus{border-color:var(--blue)}
+select{background:var(--s2);border:1px solid var(--bd);border-radius:5px;color:var(--m1);font-size:12px;padding:7px 12px;outline:none;cursor:pointer}
+
+/* Responsive layout, page links and scroll effects */
+html{scroll-behavior:smooth}
+a.btn{text-decoration:none}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease,box-shadow .25s ease,border-color .25s ease}
+.reveal.in-view{opacity:1;transform:none}
+.card:hover,.stat-card:hover,.mod-card:hover{box-shadow:0 18px 48px rgba(0,0,0,.22)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none!important}*{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+@media (max-width:980px){
+  nav{height:auto!important;min-height:52px;flex-wrap:wrap!important;gap:12px!important;padding:14px 18px!important}
+  nav>div{flex-wrap:wrap!important;gap:10px!important}
+  [style*="max-width:960px"],[style*="max-width:880px"],[style*="max-width:720px"],[style*="max-width:660px"]{max-width:100%!important}
+  [style*="grid-template-columns:1fr 1fr"],[style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:1fr!important}
+  [style*="padding:60px 32px"],[style*="padding:40px 32px"],[style*="padding:36px 20px"],[style*="padding:24px"]{padding:28px 18px!important}
+  [style*="gap:48px"]{gap:26px!important}
+  [style*="border-right:1px solid"]{border-right:0!important;border-bottom:1px solid var(--bd,var(--border))!important;padding-left:0!important;padding-right:0!important}
+  h1{font-size:clamp(24px,7vw,32px)!important}
+  .btn{white-space:nowrap}
+}
+@media (max-width:640px){
+  body{font-size:13px!important}
+  nav{align-items:flex-start!important}
+  nav .lbl, nav .label{display:none!important}
+  [style*="display:flex;gap:28px"],[style*="display:flex;gap:10px"],[style*="display:flex;gap:56px"]{flex-wrap:wrap!important}
+  [style*="grid-template-columns:1fr 1fr"],[style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:1fr!important}
+  [style*="padding:52px 48px"]{padding:34px 22px!important}
+  [style*="width:100%;max-width:400px"]{max-width:100%!important}
+  input[type=text],input[type=password],select{width:100%!important}
+  table{min-width:760px!important}
+  #aus-map{min-height:260px!important}
+}
+
+</style>
+
+<div style="background:var(--bg);min-height:600px">
+
+  <!-- NAV -->
+  <nav style="background:var(--s1);border-bottom:1px solid var(--bd);padding:0 24px;height:50px;display:flex;align-items:center;justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="width:24px;height:24px;background:var(--blue);border-radius:4px;display:flex;align-items:center;justify-content:center">
+        <i class="ti ti-droplet-filled" style="font-size:13px;color:#fff" aria-hidden="true"></i>
+      </div>
+      <span style="font-size:13px;font-weight:500">Capital Hydraulics</span>
+      <span style="color:var(--bd2)">·</span>
+      <span class="lbl">Admin Dashboard</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:7px;height:7px;border-radius:50%;background:var(--green)"></div>
+      <span style="font-size:12px;color:var(--m1)">Admin · Capital Hydraulics Pty Ltd</span>
+      <a class="btn btn-o" style="padding:5px 12px" href="./capital_hydraulics_homepage_responsive.html">Home</a>
+      <a class="btn btn-p" style="padding:5px 12px" href="./capital_hydraulics_platform_v2_responsive.html">Training</a>
+    </div>
+  </nav>
+
+  <div style="padding:24px">
+
+    <!-- TOP STATS -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px">
+      <div class="card" style="padding:16px 18px">
+        <p class="lbl" style="margin-bottom:10px">Enrolled companies</p>
+        <p style="font-size:26px;font-weight:500" id="s-companies">12</p>
+        <p style="font-size:11px;color:var(--green);margin-top:5px"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i> 3 added this month</p>
+      </div>
+      <div class="card" style="padding:16px 18px">
+        <p class="lbl" style="margin-bottom:10px">Total learners</p>
+        <p style="font-size:26px;font-weight:500" id="s-learners">84</p>
+        <p style="font-size:11px;color:var(--green);margin-top:5px"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i> 11 enrolled this week</p>
+      </div>
+      <div class="card" style="padding:16px 18px">
+        <p class="lbl" style="margin-bottom:10px">Certificates issued</p>
+        <p style="font-size:26px;font-weight:500" id="s-certs">31</p>
+        <p style="font-size:11px;color:var(--m2);margin-top:5px">37% completion rate</p>
+      </div>
+      <div class="card" style="padding:16px 18px">
+        <p class="lbl" style="margin-bottom:10px">Avg. quiz score</p>
+        <p style="font-size:26px;font-weight:500">83%</p>
+        <p style="font-size:11px;color:var(--green);margin-top:5px"><i class="ti ti-trending-up" style="font-size:11px" aria-hidden="true"></i> Above 80% pass mark</p>
+      </div>
+    </div>
+
+    <!-- MODULE COMPLETION BAR CHART + RECENT CERTS -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
+
+      <div class="card" style="padding:18px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <p class="lbl">Module completion rates</p>
+          <span style="font-size:11px;color:var(--m2)">All companies</span>
+        </div>
+        <div id="mod-chart" style="display:flex;flex-direction:column;gap:9px"></div>
+      </div>
+
+      <div class="card" style="padding:18px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <p class="lbl">Certificates issued</p>
+          <span class="tag tag-g">Recent</span>
+        </div>
+        <div id="cert-feed" style="display:flex;flex-direction:column;gap:0"></div>
+      </div>
+    </div>
+
+    <!-- COMPANY TABLE -->
+    <div class="card" style="padding:18px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+        <p class="lbl">Enrolled companies</p>
+        <div style="display:flex;align-items:center;gap:8px">
+          <input type="text" id="search-input" placeholder="Search company or state…" style="width:200px" oninput="filterTable()"/>
+          <select id="filter-status" onchange="filterTable()">
+            <option value="">All status</option>
+            <option value="active">Active</option>
+            <option value="complete">Complete</option>
+            <option value="inactive">Inactive</option>
+          </select>
+          <select id="filter-state" onchange="filterTable()">
+            <option value="">All states</option>
+            <option value="ACT">ACT</option>
+            <option value="NSW">NSW</option>
+            <option value="VIC">VIC</option>
+            <option value="QLD">QLD</option>
+            <option value="WA">WA</option>
+            <option value="SA">SA</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;table-layout:fixed">
+          <colgroup>
+            <col style="width:22%"><col style="width:10%"><col style="width:9%">
+            <col style="width:9%"><col style="width:9%"><col style="width:18%">
+            <col style="width:11%"><col style="width:12%">
+          </colgroup>
+          <thead>
+            <tr style="border-bottom:1px solid var(--bd)">
+              <th style="text-align:left;padding:8px 10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--m2);font-weight:500">Company</th>
+              <th style="text-align:left;padding:8px 10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--m2);font-weight:500">State</th>
+              <th style="text-align:center;padding:8px 10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--m2);font-weight:500">Learners</th>
+              <th style="text-align:center;padding:8px 10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--m2);font-weight:500">Certs</th>
+              <th style="text-align:center;padding:8px 10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--m2);font-weight:500">Avg score</th>
+              <th style="text-align:left;padding:8px 10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--m2);font-weight:500">Progress</th>
+              <th style="text-align:left;padding:8px 10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--m2);font-weight:500">Status</th>
+              <th style="text-align:right;padding:8px 10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--m2);font-weight:500">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="company-tbody"></tbody>
+        </table>
+        <p id="no-results" style="display:none;text-align:center;padding:24px;font-size:13px;color:var(--m2)">No companies match your search.</p>
+      </div>
+    </div>
+
+    <!-- LEARNER DRILL-DOWN -->
+    <div id="learner-panel" style="display:none;margin-top:12px">
+      <div class="card" style="padding:18px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div>
+            <p class="lbl" style="margin-bottom:4px">Learner detail</p>
+            <p style="font-size:15px;font-weight:500" id="panel-company-name"></p>
+          </div>
+          <button class="btn btn-o" onclick="closePanel()"><i class="ti ti-x" aria-hidden="true"></i> Close</button>
+        </div>
+        <table style="width:100%;border-collapse:collapse;table-layout:fixed">
+          <colgroup><col style="width:28%"><col style="width:14%"><col style="width:36%"><col style="width:12%"><col style="width:10%"></colgroup>
+          <thead>
+            <tr style="border-bottom:1px solid var(--bd)">
+              <th style="text-align:left;padding:8px 10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--m2);font-weight:500">Name</th>
+              <th style="text-align:left;padding:8px 10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--m2);font-weight:500">Enrolled</th>
+              <th style="text-align:left;padding:8px 10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--m2);font-weight:500">Modules done</th>
+              <th style="text-align:center;padding:8px 10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--m2);font-weight:500">Score</th>
+              <th style="text-align:left;padding:8px 10px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--m2);font-weight:500">Cert</th>
+            </tr>
+          </thead>
+          <tbody id="learner-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const COMPANIES = [
+  {id:1,name:"Lynx Industries",state:"ACT",learners:12,certs:8,avg:86,progress:78,status:"active",enrolled:"12 Jan 2026"},
+  {id:2,name:"BHP Site Services",state:"WA",learners:18,certs:14,avg:89,progress:85,status:"active",enrolled:"5 Feb 2026"},
+  {id:3,name:"Rio Tinto Contractors",state:"QLD",learners:9,certs:3,avg:77,progress:52,status:"active",enrolled:"18 Feb 2026"},
+  {id:4,name:"Canberra Plant Hire",state:"ACT",learners:6,certs:6,avg:91,progress:100,status:"complete",enrolled:"2 Jan 2026"},
+  {id:5,name:"Ausgrid Maintenance",state:"NSW",learners:11,certs:0,avg:71,progress:28,status:"active",enrolled:"10 Mar 2026"},
+  {id:6,name:"Hydraulic Solutions Pty",state:"VIC",learners:7,certs:0,avg:0,progress:0,status:"inactive",enrolled:"1 Apr 2026"},
+  {id:7,name:"Statewide Civil",state:"SA",learners:5,certs:0,avg:74,progress:45,status:"active",enrolled:"22 Mar 2026"},
+  {id:8,name:"Pilbara Fluid Power",state:"WA",learners:4,certs:0,avg:82,progress:60,status:"active",enrolled:"14 Apr 2026"},
+  {id:9,name:"National Pump & Energy",state:"QLD",learners:3,certs:0,avg:0,progress:0,status:"inactive",enrolled:"28 Apr 2026"},
+  {id:10,name:"ACT Government Fleet",state:"ACT",learners:4,certs:0,avg:79,progress:38,status:"active",enrolled:"3 May 2026"},
+  {id:11,name:"Ventia Infrastructure",state:"NSW",learners:3,certs:0,avg:85,progress:55,status:"active",enrolled:"8 May 2026"},
+  {id:12,name:"Redline Equipment",state:"VIC",learners:2,certs:0,avg:0,progress:0,status:"inactive",enrolled:"20 May 2026"},
+];
+
+const LEARNERS = {
+  1:[
+    {name:"Sarah K.",enrolled:"12 Jan",mods:8,score:92,cert:true},
+    {name:"Tom R.",enrolled:"12 Jan",mods:8,score:86,cert:true},
+    {name:"Jess M.",enrolled:"15 Jan",mods:6,score:81,cert:false},
+    {name:"Dave W.",enrolled:"20 Jan",mods:4,score:78,cert:false},
+    {name:"Priya N.",enrolled:"22 Jan",mods:8,score:88,cert:true},
+  ],
+  2:[
+    {name:"Mitchell C.",enrolled:"5 Feb",mods:8,score:91,cert:true},
+    {name:"Darren W.",enrolled:"5 Feb",mods:8,score:89,cert:true},
+    {name:"Amy T.",enrolled:"8 Feb",mods:7,score:84,cert:false},
+    {name:"Jake H.",enrolled:"10 Feb",mods:8,score:90,cert:true},
+  ],
+  4:[
+    {name:"Chris B.",enrolled:"2 Jan",mods:8,score:94,cert:true},
+    {name:"Natalie S.",enrolled:"2 Jan",mods:8,score:91,cert:true},
+    {name:"Ryan O.",enrolled:"5 Jan",mods:8,score:88,cert:true},
+  ],
+};
+
+const MODS = [
+  {label:"Intro to Hydraulics",pct:94},
+  {label:"Hose Types & Construction",pct:88},
+  {label:"Fittings & Connectors",pct:82},
+  {label:"Pressure Ratings",pct:76},
+  {label:"Assembly & Crimping",pct:68},
+  {label:"Leak Detection",pct:61},
+  {label:"AU Standards",pct:55},
+  {label:"Maintenance",pct:48},
+];
+
+const CERTS = [
+  {name:"Darren W.",company:"BHP Site Services",date:"28 May"},
+  {name:"Priya N.",company:"Lynx Industries",date:"26 May"},
+  {name:"Jake H.",company:"BHP Site Services",date:"24 May"},
+  {name:"Mitchell C.",company:"BHP Site Services",date:"22 May"},
+  {name:"Tom R.",company:"Lynx Industries",date:"20 May"},
+  {name:"Chris B.",company:"Canberra Plant Hire",date:"18 May"},
+];
+
+function buildModChart(){
+  const el=document.getElementById('mod-chart');
+  MODS.forEach(m=>{
+    const col = m.pct>=80?'var(--green)':m.pct>=60?'var(--amber)':'var(--red)';
+    el.innerHTML+=`
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <span style="font-size:11px;color:var(--m1)">${m.label}</span>
+          <span style="font-size:11px;font-weight:500;color:${col}">${m.pct}%</span>
+        </div>
+        <div class="prog"><div class="prog-f" style="width:${m.pct}%;background:${col}"></div></div>
+      </div>`;
+  });
+}
+
+function buildCertFeed(){
+  const el=document.getElementById('cert-feed');
+  CERTS.forEach((c,i)=>{
+    const init=c.name.split(' ').map(w=>w[0]).join('');
+    el.innerHTML+=`
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 0;${i<CERTS.length-1?'border-bottom:1px solid var(--bd)':''}">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--blue3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:var(--blue);flex-shrink:0">${init}</div>
+        <div style="flex:1;min-width:0">
+          <p style="font-size:12px;color:var(--text);font-weight:500">${c.name}</p>
+          <p style="font-size:11px;color:var(--m2)">${c.company}</p>
+        </div>
+        <div style="text-align:right">
+          <span class="tag tag-g" style="font-size:10px">Certified</span>
+          <p style="font-size:11px;color:var(--m2);margin-top:3px">${c.date}</p>
+        </div>
+      </div>`;
+  });
+}
+
+let filteredCompanies = [...COMPANIES];
+
+function filterTable(){
+  const q=document.getElementById('search-input').value.toLowerCase();
+  const st=document.getElementById('filter-status').value;
+  const sta=document.getElementById('filter-state').value;
+  filteredCompanies=COMPANIES.filter(c=>{
+    const mQ=!q||c.name.toLowerCase().includes(q)||c.state.toLowerCase().includes(q);
+    const mSt=!st||c.status===st;
+    const mSta=!sta||c.state===sta;
+    return mQ&&mSt&&mSta;
+  });
+  renderTable();
+}
+
+function renderTable(){
+  const tbody=document.getElementById('company-tbody');
+  const noRes=document.getElementById('no-results');
+  tbody.innerHTML='';
+  if(!filteredCompanies.length){noRes.style.display='block';return;}
+  noRes.style.display='none';
+  filteredCompanies.forEach(c=>{
+    const stTag = c.status==='complete'?'tag-g':c.status==='active'?'tag-b':'tag-r';
+    const stLabel = c.status==='complete'?'Complete':c.status==='active'?'Active':'Inactive';
+    const pCol = c.progress>=80?'var(--green)':c.progress>=50?'var(--amber)':'var(--red)';
+    const avgCol = c.avg>=80?'var(--green)':c.avg>0?'var(--amber)':'var(--m2)';
+    const hasLearners=!!LEARNERS[c.id];
+    const tr=document.createElement('tr');
+    tr.className='tr';
+    tr.style.cssText='border-bottom:1px solid var(--bd);cursor:pointer';
+    tr.innerHTML=`
+      <td style="padding:10px 10px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:26px;height:26px;border-radius:4px;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--blue);flex-shrink:0">${c.name.split(' ').map(w=>w[0]).join('').slice(0,2)}</div>
+          <div>
+            <p style="font-size:12px;font-weight:500;color:var(--text)">${c.name}</p>
+            <p style="font-size:11px;color:var(--m2)">Since ${c.enrolled}</p>
+          </div>
+        </div>
+      </td>
+      <td style="padding:10px 10px"><span class="tag tag-b" style="font-size:10px">${c.state}</span></td>
+      <td style="padding:10px 10px;text-align:center;font-size:13px;color:var(--text)">${c.learners}</td>
+      <td style="padding:10px 10px;text-align:center;font-size:13px;color:${c.certs>0?'var(--green)':'var(--m2)'}">${c.certs}</td>
+      <td style="padding:10px 10px;text-align:center;font-size:13px;color:${avgCol}">${c.avg>0?c.avg+'%':'—'}</td>
+      <td style="padding:10px 10px">
+        <div style="display:flex;align-items:center;gap:7px">
+          <div class="prog" style="flex:1"><div class="prog-f" style="width:${c.progress}%;background:${pCol}"></div></div>
+          <span style="font-size:11px;color:${pCol};min-width:28px">${c.progress}%</span>
+        </div>
+      </td>
+      <td style="padding:10px 10px"><span class="tag ${stTag}">${stLabel}</span></td>
+      <td style="padding:10px 10px;text-align:right">
+        ${hasLearners?`<button class="btn btn-o" style="padding:4px 10px;font-size:11px" onclick="openPanel(${c.id},'${c.name}',event)"><i class="ti ti-users" aria-hidden="true"></i> View</button>`:`<span style="font-size:11px;color:var(--m2)">No data</span>`}
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function openPanel(id,name,e){
+  e.stopPropagation();
+  const panel=document.getElementById('learner-panel');
+  document.getElementById('panel-company-name').textContent=name;
+  const tbody=document.getElementById('learner-tbody');
+  tbody.innerHTML='';
+  const learners=LEARNERS[id]||[];
+  learners.forEach((l,i)=>{
+    const mDots=Array.from({length:8},(_,j)=>
+      `<div style="width:6px;height:6px;border-radius:50%;background:${j<l.mods?'var(--blue)':'var(--s3)'}"></div>`
+    ).join('');
+    tbody.innerHTML+=`
+      <tr style="border-bottom:1px solid var(--bd)">
+        <td style="padding:9px 10px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:24px;height:24px;border-radius:50%;background:var(--blue3);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--blue)">${l.name.split(' ').map(w=>w[0]).join('')}</div>
+            <span style="font-size:12px;font-weight:500;color:var(--text)">${l.name}</span>
+          </div>
+        </td>
+        <td style="padding:9px 10px;font-size:12px;color:var(--m1)">${l.enrolled}</td>
+        <td style="padding:9px 10px">
+          <div style="display:flex;align-items:center;gap:3px">${mDots}<span style="font-size:11px;color:var(--m2);margin-left:6px">${l.mods}/8</span></div>
+        </td>
+        <td style="padding:9px 10px;text-align:center;font-size:13px;font-weight:500;color:${l.score>=80?'var(--green)':'var(--amber)'}">${l.score>0?l.score+'%':'—'}</td>
+        <td style="padding:9px 10px">${l.cert?'<span class="tag tag-g" style="font-size:10px">Issued</span>':'<span style="font-size:11px;color:var(--m2)">Pending</span>'}</td>
+      </tr>`;
+  });
+  panel.style.display='block';
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function closePanel(){document.getElementById('learner-panel').style.display='none';}
+
+buildModChart();
+buildCertFeed();
+renderTable();
+
+function initScrollEffects(){
+  const targets=[...document.querySelectorAll('.card,.stat-card,.mod-card,#screen-dashboard > div > div,#screen-lesson > div > div,#screen-cert > div > div,body > div > div')];
+  targets.forEach((el,i)=>{if(el.dataset.revealReady)return;el.dataset.revealReady='1';el.classList.add('reveal');el.style.transitionDelay=Math.min(i*35,220)+'ms';});
+  if(!('IntersectionObserver' in window)){targets.forEach(el=>el.classList.add('in-view'));return;}
+  const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in-view');io.unobserve(e.target);}}),{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  targets.forEach(el=>io.observe(el));
+}
+window.addEventListener('load',initScrollEffects);
+const revealObserver=new MutationObserver(()=>initScrollEffects());
+window.addEventListener('load',()=>revealObserver.observe(document.body,{childList:true,subtree:true}));
+
+</script>

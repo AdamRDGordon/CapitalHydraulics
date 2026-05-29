@@ -1,0 +1,1046 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080b14;--surface:#0d1120;--surface2:#111726;--surface3:#161d2e;
+  --border:#1e2640;--border2:#252e47;
+  --blue:#4a9eff;--blue-dim:#1a3a6e;--blue-glow:#2a5aaa;
+  --text:#f0f2f8;--muted:#5a6585;--muted2:#8090b8;
+  --success:#22c77a;--danger:#e05555;
+}
+body{font-family:var(--font-sans,'Inter',sans-serif);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.screen{display:none;min-height:100vh}
+.screen.active{display:block}
+input[type=text],input[type=password]{
+  width:100%;padding:11px 14px;background:var(--surface2);
+  border:1px solid var(--border);border-radius:6px;
+  color:var(--text);font-size:13px;outline:none;transition:border .15s;
+}
+input:focus{border-color:var(--blue)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:5px;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all .18s;letter-spacing:.02em}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:#5aaeff}
+.btn-ghost{background:transparent;color:var(--muted2);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--border2);color:var(--text)}
+.label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px}
+.tag{display:inline-block;padding:2px 10px;border-radius:3px;font-size:11px;font-weight:500;letter-spacing:.04em}
+.tag-blue{background:var(--blue-dim);color:var(--blue)}
+.tag-success{background:#0a2e1c;color:var(--success)}
+.tag-locked{background:var(--surface2);color:var(--muted)}
+.tag-danger{background:#2e0e0e;color:var(--danger)}
+.progress-track{height:2px;background:var(--surface3);border-radius:2px}
+.progress-fill{height:100%;background:var(--blue);border-radius:2px;transition:width .4s}
+.divider{border:none;border-top:1px solid var(--border);margin:0}
+.radio-opt{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;cursor:pointer;transition:all .15s;margin-bottom:8px}
+.radio-opt:hover{border-color:var(--border2);background:var(--surface3)}
+.radio-opt.selected{border-color:var(--blue);background:#0a1428}
+.radio-opt.correct{border-color:var(--success);background:#061a10}
+.radio-opt.wrong{border-color:var(--danger);background:#160808}
+.toast{position:fixed;top:18px;right:18px;padding:11px 18px;border-radius:6px;font-size:13px;font-weight:500;z-index:999;opacity:0;transition:opacity .3s;letter-spacing:.01em}
+.toast.show{opacity:1}
+.toast-success{background:var(--success);color:#fff}
+.toast-error{background:var(--danger);color:#fff}
+.toast-info{background:var(--blue);color:#fff}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn .3s ease forwards}
+.mod-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;cursor:pointer;transition:all .2s}
+.mod-card:hover:not(.locked){border-color:var(--blue-glow);background:var(--surface2)}
+.mod-card.locked{opacity:.45;cursor:not-allowed}
+.mod-card.done{border-color:#153a27}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px 20px}
+
+/* Responsive layout, page links and scroll effects */
+html{scroll-behavior:smooth}
+a.btn{text-decoration:none}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease,box-shadow .25s ease,border-color .25s ease}
+.reveal.in-view{opacity:1;transform:none}
+.card:hover,.stat-card:hover,.mod-card:hover{box-shadow:0 18px 48px rgba(0,0,0,.22)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none!important}*{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+@media (max-width:980px){
+  nav{height:auto!important;min-height:52px;flex-wrap:wrap!important;gap:12px!important;padding:14px 18px!important}
+  nav>div{flex-wrap:wrap!important;gap:10px!important}
+  [style*="max-width:960px"],[style*="max-width:880px"],[style*="max-width:720px"],[style*="max-width:660px"]{max-width:100%!important}
+  [style*="grid-template-columns:1fr 1fr"],[style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:1fr!important}
+  [style*="padding:60px 32px"],[style*="padding:40px 32px"],[style*="padding:36px 20px"],[style*="padding:24px"]{padding:28px 18px!important}
+  [style*="gap:48px"]{gap:26px!important}
+  [style*="border-right:1px solid"]{border-right:0!important;border-bottom:1px solid var(--bd,var(--border))!important;padding-left:0!important;padding-right:0!important}
+  h1{font-size:clamp(24px,7vw,32px)!important}
+  .btn{white-space:nowrap}
+}
+@media (max-width:640px){
+  body{font-size:13px!important}
+  nav{align-items:flex-start!important}
+  nav .lbl, nav .label{display:none!important}
+  [style*="display:flex;gap:28px"],[style*="display:flex;gap:10px"],[style*="display:flex;gap:56px"]{flex-wrap:wrap!important}
+  [style*="grid-template-columns:1fr 1fr"],[style*="grid-template-columns:repeat(4,1fr)"]{grid-template-columns:1fr!important}
+  [style*="padding:52px 48px"]{padding:34px 22px!important}
+  [style*="width:100%;max-width:400px"]{max-width:100%!important}
+  input[type=text],input[type=password],select{width:100%!important}
+  table{min-width:760px!important}
+  #aus-map{min-height:260px!important}
+}
+
+</style>
+
+<h2 class="sr-only">Capital Hydraulics Pty Ltd — Hydraulic Training & Certification Platform</h2>
+<div id="toast" class="toast"></div>
+
+<!-- LOGIN -->
+<div id="screen-login" class="screen active" style="background:var(--bg);display:flex;align-items:center;justify-content:center;min-height:100vh">
+  <div style="width:100%;max-width:400px;padding:24px">
+    <div style="margin-bottom:36px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:32px;height:32px;background:var(--blue);border-radius:4px;display:flex;align-items:center;justify-content:center">
+          <i class="ti ti-droplet-filled" style="font-size:17px;color:#fff" aria-hidden="true"></i>
+        </div>
+        <span style="font-size:16px;font-weight:500;color:var(--text);letter-spacing:.01em">Capital Hydraulics</span>
+      </div>
+      <p class="label" style="margin-top:4px">Training & Certification Platform · Canberra, Australia</p>
+      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+        <a class="btn btn-ghost" style="padding:6px 12px;font-size:12px" href="./capital_hydraulics_homepage_responsive.html">Homepage</a>
+        <a class="btn btn-ghost" style="padding:6px 12px;font-size:12px" href="./capital_hydraulics_admin_dashboard_responsive.html">Admin</a>
+      </div>
+    </div>
+    <div style="margin-bottom:28px">
+      <h1 style="font-size:24px;font-weight:500;color:var(--text);line-height:1.3;margin-bottom:8px">Sign in to your<br>training account</h1>
+      <p style="font-size:13px;color:var(--muted2);line-height:1.6">Your progress is saved and locked to your profile.</p>
+    </div>
+    <div style="margin-bottom:14px">
+      <label class="label" style="display:block;margin-bottom:7px">Full Name</label>
+      <input type="text" id="login-name" placeholder="e.g. John Smith" />
+    </div>
+    <div style="margin-bottom:22px">
+      <label class="label" style="display:block;margin-bottom:7px">Company / Employer</label>
+      <input type="text" id="login-company" placeholder="e.g. Lynx Industries" />
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:12px" onclick="doLogin()">
+      Continue to training <i class="ti ti-arrow-right" aria-hidden="true"></i>
+    </button>
+    <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:16px;line-height:1.6">By continuing you agree to complete all modules honestly.<br>Certificates are issued by Capital Hydraulics Pty Ltd.</p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="screen-dashboard" class="screen" style="background:var(--bg)">
+  <nav style="background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="width:26px;height:26px;background:var(--blue);border-radius:4px;display:flex;align-items:center;justify-content:center">
+        <i class="ti ti-droplet-filled" style="font-size:14px;color:#fff" aria-hidden="true"></i>
+      </div>
+      <span style="font-size:14px;font-weight:500;letter-spacing:.01em">Capital Hydraulics</span>
+      <span style="color:var(--border2)">·</span>
+      <span class="label">Hydraulic Training</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <a class="btn btn-ghost" style="padding:6px 12px;font-size:12px" href="./capital_hydraulics_homepage_responsive.html">Home</a>
+      <a class="btn btn-ghost" style="padding:6px 12px;font-size:12px" href="./capital_hydraulics_admin_dashboard_responsive.html">Admin</a>
+      <span id="nav-user" style="font-size:12px;color:var(--muted2)"></span>
+      <button class="btn btn-ghost" style="padding:6px 14px;font-size:12px" onclick="logout()">Sign out</button>
+    </div>
+  </nav>
+  <div style="max-width:880px;margin:0 auto;padding:36px 20px">
+    <div style="margin-bottom:32px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <p class="label" style="margin-bottom:8px">Training Dashboard</p>
+        <h1 style="font-size:22px;font-weight:500;color:var(--text)">Welcome back, <span id="dash-name" style="color:var(--blue)"></span></h1>
+      </div>
+      <div id="cert-btn-wrap" style="display:none">
+        <button class="btn btn-primary" onclick="showCert()"><i class="ti ti-certificate" aria-hidden="true"></i> View Certificate</button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px">
+      <div class="stat-card">
+        <p class="label" style="margin-bottom:10px">Modules done</p>
+        <p style="font-size:26px;font-weight:500;color:var(--text)" id="stat-done">0</p>
+        <p style="font-size:11px;color:var(--muted);margin-top:4px">of 8 total</p>
+      </div>
+      <div class="stat-card">
+        <p class="label" style="margin-bottom:10px">Progress</p>
+        <p style="font-size:26px;font-weight:500;color:var(--text)" id="stat-pct">0%</p>
+        <div class="progress-track" style="margin-top:10px"><div class="progress-fill" id="stat-bar" style="width:0%"></div></div>
+      </div>
+      <div class="stat-card">
+        <p class="label" style="margin-bottom:10px">Best score</p>
+        <p style="font-size:26px;font-weight:500;color:var(--text)" id="stat-best">—</p>
+        <p style="font-size:11px;color:var(--muted);margin-top:4px">pass mark 80%</p>
+      </div>
+      <div class="stat-card">
+        <p class="label" style="margin-bottom:10px">Status</p>
+        <p style="font-size:14px;font-weight:500;margin-top:6px" id="stat-status"></p>
+        <p style="font-size:11px;color:var(--muted);margin-top:4px" id="stat-company"></p>
+      </div>
+    </div>
+    <hr class="divider" style="margin-bottom:24px">
+    <p class="label" style="margin-bottom:16px">Course Modules — Locked Progression</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px" id="module-grid"></div>
+  </div>
+</div>
+
+<!-- LESSON -->
+<div id="screen-lesson" class="screen" style="background:var(--bg)">
+  <nav style="background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between">
+    <button class="btn btn-ghost" style="padding:6px 14px;font-size:12px" onclick="goBack()">
+      <i class="ti ti-arrow-left" aria-hidden="true"></i> Dashboard
+    </button>
+    <span id="lesson-nav-title" class="label"></span>
+    <div style="width:80px"></div>
+  </nav>
+  <div id="lesson-progress-bar" style="height:2px;background:var(--blue);transition:width .4s;width:0%"></div>
+  <div style="max-width:720px;margin:0 auto;padding:36px 20px">
+    <!-- LESSON PHASE -->
+    <div id="lesson-phase">
+      <p id="lesson-badge" class="label" style="margin-bottom:12px;color:var(--blue)"></p>
+      <h1 id="lesson-title" style="font-size:22px;font-weight:500;margin-bottom:10px;line-height:1.3"></h1>
+      <p id="lesson-intro" style="font-size:14px;color:var(--muted2);line-height:1.7;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--border)"></p>
+      <div id="lesson-loading" style="display:none;padding:48px;text-align:center">
+        <i class="ti ti-loader" style="font-size:28px;color:var(--blue);animation:spin 1s linear infinite" aria-hidden="true"></i>
+        <p style="margin-top:14px;font-size:13px;color:var(--muted2)">Loading lesson content…</p>
+      </div>
+      <div id="lesson-content" style="font-size:14px;line-height:1.85;color:#b8c2d8"></div>
+      <div style="margin-top:36px;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+        <p style="font-size:12px;color:var(--muted)">Read the lesson carefully before starting the quiz.</p>
+        <button class="btn btn-primary" id="btn-start-quiz" onclick="startQuiz()" style="display:none">
+          Start quiz <i class="ti ti-arrow-right" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+    <!-- QUIZ PHASE -->
+    <div id="quiz-phase" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <p id="quiz-mod-label" class="label" style="color:var(--blue)"></p>
+        <p id="quiz-progress-text" style="font-size:12px;color:var(--muted2)"></p>
+      </div>
+      <div class="progress-track" style="margin-bottom:28px"><div class="progress-fill" id="quiz-bar" style="width:0%"></div></div>
+      <div id="quiz-loading" style="display:none;padding:48px;text-align:center">
+        <i class="ti ti-loader" style="font-size:28px;color:var(--blue);animation:spin 1s linear infinite" aria-hidden="true"></i>
+        <p style="margin-top:14px;font-size:13px;color:var(--muted2)">Generating quiz questions…</p>
+      </div>
+      <div id="quiz-q-area"></div>
+    </div>
+    <!-- RESULT PHASE -->
+    <div id="result-phase" style="display:none;padding:48px 0;text-align:center" class="fade-in">
+      <div id="result-icon" style="font-size:52px;margin-bottom:18px"></div>
+      <p id="result-label" class="label" style="margin-bottom:10px"></p>
+      <h2 id="result-title" style="font-size:22px;font-weight:500;margin-bottom:8px"></h2>
+      <p id="result-msg" style="font-size:14px;color:var(--muted2);line-height:1.7;margin-bottom:6px"></p>
+      <p id="result-score" style="font-size:36px;font-weight:500;margin-bottom:28px"></p>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button class="btn btn-ghost" onclick="retryQuiz()"><i class="ti ti-refresh" aria-hidden="true"></i> Retry quiz</button>
+        <button class="btn btn-primary" onclick="goBack()"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Dashboard</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CERTIFICATE -->
+<div id="screen-cert" class="screen" style="background:var(--bg);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:40px 20px">
+  <div style="width:100%;max-width:660px">
+    <button class="btn btn-ghost" style="padding:6px 14px;font-size:12px;margin-bottom:20px" onclick="goBack()">
+      <i class="ti ti-arrow-left" aria-hidden="true"></i> Dashboard
+    </button>
+    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:52px 48px;text-align:center;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue)"></div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:28px">
+        <div style="width:30px;height:30px;background:var(--blue);border-radius:4px;display:flex;align-items:center;justify-content:center">
+          <i class="ti ti-droplet-filled" style="font-size:16px;color:#fff" aria-hidden="true"></i>
+        </div>
+        <span style="font-size:15px;font-weight:500;color:var(--text)">Capital Hydraulics Pty Ltd</span>
+      </div>
+      <p class="label" style="margin-bottom:20px;letter-spacing:.2em;color:var(--muted)">Certificate of Completion</p>
+      <p style="font-size:13px;color:var(--muted2);margin-bottom:10px">This certifies that</p>
+      <h1 id="cert-name" style="font-size:30px;font-weight:500;color:var(--text);margin-bottom:6px"></h1>
+      <p id="cert-company" style="font-size:13px;color:var(--muted2);margin-bottom:24px"></p>
+      <p style="font-size:13px;color:var(--muted2);line-height:1.8;margin-bottom:24px">has successfully completed all modules of the</p>
+      <p style="font-size:18px;font-weight:500;color:var(--blue);margin-bottom:24px">Hydraulic Hose Fittings & Techniques</p>
+      <p style="font-size:13px;color:var(--muted2);line-height:1.8;margin-bottom:32px">training and certification program, demonstrating competency across<br>hydraulic systems, hose assembly, Australian standards, and field best practices.</p>
+      <hr class="divider" style="margin-bottom:28px">
+      <div style="display:flex;justify-content:center;gap:56px">
+        <div>
+          <p class="label" style="margin-bottom:6px">Issued by</p>
+          <p style="font-size:13px;font-weight:500;color:var(--text)">Capital Hydraulics Pty Ltd</p>
+          <p style="font-size:11px;color:var(--muted);margin-top:2px">Canberra, Australia</p>
+        </div>
+        <div>
+          <p class="label" style="margin-bottom:6px">Date issued</p>
+          <p id="cert-date" style="font-size:13px;font-weight:500;color:var(--text)"></p>
+        </div>
+        <div>
+          <p class="label" style="margin-bottom:6px">Modules completed</p>
+          <p id="cert-mods" style="font-size:13px;font-weight:500;color:var(--text)"></p>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:11px;color:var(--muted);margin-top:14px">Screenshot or print this certificate for your records.</p>
+  </div>
+</div>
+
+<script>
+const MODULES=[
+  {
+    "id": 1,
+    "title": "Introduction to Hydraulics",
+    "icon": "ti-droplet",
+    "intro": "Foundational principles of hydraulic systems used in industrial applications across Australia.",
+    "topic": "Introduction to hydraulic systems: pressure, flow, Pascal's law, hydraulic circuit basics, advantages of hydraulics vs pneumatics, safety overview for Australian industrial sites"
+  },
+  {
+    "id": 2,
+    "title": "Hydraulic Hose Types & Construction",
+    "icon": "ti-cylinder",
+    "intro": "The different hose constructions and how pressure ratings, reinforcement and materials are selected.",
+    "topic": "Hydraulic hose types and construction: inner tube materials, reinforcement layers (spiral/braid), cover types, pressure ratings, SAE/ISO standards, common hose designations SAE 100R series, Australian hose selection practice"
+  },
+  {
+    "id": 3,
+    "title": "Hose Fittings & Connectors",
+    "icon": "ti-tool",
+    "intro": "Identifying and selecting the full range of fittings used across hydraulic systems.",
+    "topic": "Hydraulic hose fittings and connectors: JIC, BSP, NPT, ORFS, SAE flange, Metric — identification, thread forms, sealing methods, fitting materials, catalogue part number decoding for Australian suppliers"
+  },
+  {
+    "id": 4,
+    "title": "Pressure Ratings & System Design",
+    "icon": "ti-gauge",
+    "intro": "How to match hose and fitting to pressure requirements, including surge and safety margins.",
+    "topic": "Hydraulic pressure ratings and system design: working pressure, burst pressure, safety factor 4:1, surge pressure, vacuum ratings, temperature effects on hose, minimum bend radius, routing and support on Australian mobile plant"
+  },
+  {
+    "id": 5,
+    "title": "Hose Assembly & Crimping",
+    "icon": "ti-settings",
+    "intro": "Step-by-step hose cutting, preparation, and crimping procedures for safe assemblies.",
+    "topic": "Hydraulic hose assembly and crimping: cutting, insertion depth measurement, skive vs no-skive, crimp diameter tolerances, crimping machine setup, die selection, bite-type vs crimp fittings, quality checks and assembly traceability"
+  },
+  {
+    "id": 6,
+    "title": "Leak Detection & Troubleshooting",
+    "icon": "ti-search",
+    "intro": "How to identify, diagnose, and safely fix common hydraulic hose and fitting failures.",
+    "topic": "Hydraulic leak detection and troubleshooting: visual inspection, UV dye, ultrasonic detection, common failure modes (over/under-crimping, thread damage, abrasion, cavitation), hydraulic injection injury risk, safe work practices"
+  },
+  {
+    "id": 7,
+    "title": "Australian Standards & Compliance",
+    "icon": "ti-clipboard-check",
+    "intro": "Australian and international standards governing hydraulic hose assemblies and workplace obligations.",
+    "topic": "Australian compliance for hydraulics: AS 4041, Safe Work Australia WHS regs, ACT workplace safety obligations, pressure equipment labelling, traceability of hose assemblies, PCBU duties, notifiable incidents involving hydraulics"
+  },
+  {
+    "id": 8,
+    "title": "Maintenance & Best Practices",
+    "icon": "ti-refresh",
+    "intro": "Scheduled maintenance procedures and best practices to maximise hose assembly service life.",
+    "topic": "Hydraulic hose maintenance and best practices: inspection intervals, service life limits, replacement triggers, storage of assemblies, contamination control, fluid compatibility, field tagging, record keeping for Australian plant maintenance"
+  }
+];
+
+const COURSE_CONTENT={
+  "1": "<h3>What hydraulics does</h3><p>Hydraulics uses pressurised fluid to transfer force from one point to another. In practical terms, a small input force can control a much larger output force when pressure is contained and directed through pumps, valves, hoses, cylinders and motors.</p><h3>Pressure, flow and force</h3><p>Pressure is the force applied over an area. Flow is the movement of oil through the system. A useful field rule is simple: pressure creates force, while flow creates speed. When a cylinder is moving slowly, think flow. When it cannot lift or push the load, think pressure, leakage or mechanical restriction.</p><h3>Pascal's law in the field</h3><p>Pascal's law states that pressure applied to a confined fluid is transmitted equally in all directions. This is why a hydraulic jack, excavator attachment or press can multiply force. The system only works safely when the fluid is contained and every component is rated for the pressure it sees.</p><h3>Basic circuit components</h3><ul><li>Reservoir: stores hydraulic fluid and helps with cooling and contamination control.</li><li>Pump: creates flow, not pressure by itself.</li><li>Valves: direct, limit or control the flow and pressure.</li><li>Actuators: cylinders and motors that convert hydraulic power into movement.</li><li>Hoses and fittings: flexible connections that must suit pressure, temperature, routing and fluid type.</li></ul><h3>Safety first</h3><p>Never check leaks with your hand. Hydraulic injection injuries can look minor but require urgent medical treatment. Isolate, depressurise and lock out equipment before working on a circuit.</p>",
+  "2": "<h3>How a hydraulic hose is built</h3><p>A hydraulic hose is not just rubber tubing. It is a layered pressure component designed to contain oil, handle movement and resist the work environment. Most hoses include an inner tube, reinforcement and an outer cover.</p><h3>Inner tube and fluid compatibility</h3><p>The inner tube must be compatible with the hydraulic oil or fluid in use. Standard mineral oils, water-glycol fluids and biodegradable fluids can have different compatibility requirements. A mismatch can cause swelling, cracking or early failure.</p><h3>Reinforcement layers</h3><p>Reinforcement carries most of the pressure load. Wire braid hoses are common in medium-pressure applications and are flexible for general plant use. Spiral wire hoses are usually selected for higher pressure and impulse-heavy applications such as mobile equipment.</p><h3>Outer cover</h3><ul><li>Standard covers suit clean indoor or protected applications.</li><li>Abrasion-resistant covers are used where rubbing, dragging or vibration is expected.</li><li>High-temperature covers may be required near engines, furnaces or hot hydraulic circuits.</li><li>Protective sleeving can reduce abrasion and help contain oil spray if a failure occurs.</li></ul><h3>Ratings and markings</h3><p>Always read the hose layline. It normally identifies the manufacturer, hose type, size and pressure rating. The assembly is only as strong as the lowest-rated component, including hose, fittings, adapters and the crimp specification.</p><h3>Selection mindset</h3><p>Good hose selection considers pressure, impulse, temperature, fluid, bend radius, movement, abrasion and environment. Selecting only by inside diameter can lead to unsafe assemblies.</p>",
+  "3": "<h3>Why fitting identification matters</h3><p>Incorrect fitting selection is a common cause of leaks, thread damage and unsafe repairs. Many hydraulic fittings look similar but seal in different ways. Forcing the wrong thread together may hold briefly, then fail under vibration or pressure cycling.</p><h3>Common connection types</h3><ul><li>JIC: uses a 37-degree flare seat and is common on mobile and industrial equipment.</li><li>BSP: common in Australia; may seal on a bonded washer, cone seat or thread depending on type.</li><li>NPT: tapered thread that seals through thread interference and sealant.</li><li>ORFS: O-ring face seal, commonly used where high leak resistance is required.</li><li>SAE flange: used on larger, higher-flow connections.</li><li>Metric: common on European machinery and may use different sealing styles.</li></ul><h3>Thread versus seal</h3><p>The thread holds the connection together. The seal is what stops oil escaping. Some connections seal on a flare, some on an O-ring, some on a bonded washer and some on tapered threads. Identify both before choosing a part.</p><h3>Field identification process</h3><p>Clean the fitting, measure the thread diameter, check pitch with a gauge, inspect the sealing face and compare against a fitting chart. If uncertain, replace matched pairs rather than mixing standards.</p><h3>Good practice</h3><p>Avoid over-tightening. It can split seats, damage O-rings and distort fittings. Use the correct torque where available, support the hose during tightening and check that the final hose position does not introduce twist.</p>",
+  "4": "<h3>Working pressure and burst pressure</h3><p>Working pressure is the maximum pressure a hose assembly is designed to handle in normal service. Burst pressure is a laboratory failure value and must not be used as a working limit. Many hydraulic hoses use a 4:1 design factor, but the safe selection must always follow the manufacturer's rating.</p><h3>Pressure spikes and impulse</h3><p>Hydraulic systems rarely operate at one steady pressure. Direction changes, shock loads, relief valve events and sudden actuator stops can create pressure spikes. A hose that appears suitable for static pressure may fail early if it sees repeated impulse loading.</p><h3>Temperature effects</h3><p>Heat reduces hose life. High oil temperature can harden covers, degrade tubes and weaken reinforcement adhesion. Consider both fluid temperature and ambient temperature near engines, exhausts or process equipment.</p><h3>Bend radius and routing</h3><ul><li>Do not bend hose tighter than the minimum bend radius.</li><li>Keep bends away from the fitting where possible.</li><li>Use clamps to control vibration and prevent rubbing.</li><li>Allow enough length for movement, but avoid excessive loops.</li><li>Do not install a hose with twist; twist reduces service life.</li></ul><h3>System design checks</h3><p>Confirm pressure rating, flow requirement, hose size, fitting compatibility and environmental exposure. The lowest-rated part controls the assembly rating. If adapters are added, they must be included in the pressure and sealing assessment.</p>",
+  "5": "<h3>Preparation before assembly</h3><p>Good hose assemblies start with identification and preparation. Confirm the hose type, size, fitting series and crimp specification before cutting. Check that the hose and fittings are compatible and from the approved crimp data for the machine and die set.</p><h3>Cutting and cleaning</h3><p>Cut hose squarely using suitable equipment. A poor cut can affect insertion depth and crimp quality. After cutting, remove debris from the hose bore. Contamination introduced during assembly can damage valves, pumps and actuators.</p><h3>Insertion depth</h3><p>Mark the insertion depth before fitting the coupling. This gives a visual check that the fitting has not backed out during crimping. Skive or no-skive preparation must match the fitting design and manufacturer's procedure.</p><h3>Crimping process</h3><ul><li>Select the correct die set and machine setting.</li><li>Position the fitting correctly in the crimper.</li><li>Crimp to the specified diameter, not by appearance.</li><li>Measure the finished crimp with verniers or an approved gauge.</li><li>Record batch, operator or job details where traceability is required.</li></ul><h3>Final inspection</h3><p>Inspect for cover damage, incorrect fitting alignment, exposed wire, crushed ferrules or incomplete insertion. Cap the assembly to keep it clean until installation. Never guess a crimp setting because two similar-looking fittings may require different diameters.</p>",
+  "6": "<h3>Recognising common failures</h3><p>Hydraulic leaks can come from worn hoses, damaged fittings, loose adapters, cracked tubes, over-crimping, under-crimping, abrasion, heat damage or excessive movement. The visible oil is often not the true root cause, so inspect the full hose route.</p><h3>Safe leak detection</h3><p>Never use bare hands to find a leak. High-pressure oil can penetrate skin and cause severe injury. Use cardboard, inspection mirrors, UV dye, absorbent pads or ultrasonic detection tools where appropriate. Depressurise before tightening or replacing parts.</p><h3>Visual inspection clues</h3><ul><li>Oil at the ferrule can indicate poor crimp, hose pull-out or fitting damage.</li><li>Wet threads may suggest an incorrect seal type or damaged thread.</li><li>Scuffed covers show abrasion and may hide exposed reinforcement.</li><li>Blistering can indicate fluid incompatibility or trapped gas.</li><li>Hard, cracked covers often point to heat or age-related degradation.</li></ul><h3>Troubleshooting sequence</h3><p>Start with safety isolation, then clean the area. Run the machine only if it is safe to reproduce the fault. Identify whether the issue is pressure, flow, contamination, fitting mismatch or mechanical damage. Replace suspect components rather than repeatedly tightening them.</p><h3>After repair</h3><p>Check routing, clamps, bend radius and movement through the full machine cycle. A new hose installed on the same poor route may fail quickly.</p>",
+  "7": "<h3>Compliance mindset</h3><p>Hydraulic work must be performed with the same discipline as other pressure-related maintenance. In Australia, employers and workers have duties under WHS legislation to manage risks, provide safe systems of work and ensure competent people perform tasks.</p><h3>Relevant standards and references</h3><p>Hydraulic hose work may be influenced by manufacturer requirements, site procedures, pressure equipment rules, Safe Work Australia guidance and relevant Australian or international standards. AS 4041 is commonly referenced for pressure piping considerations, while hose and fitting standards may include SAE and ISO specifications.</p><h3>Traceability and labelling</h3><ul><li>Record hose type, size and pressure rating.</li><li>Record fitting type and crimp specification.</li><li>Label assemblies where site procedure requires it.</li><li>Keep service records for inspections, replacements and failures.</li><li>Maintain evidence of training or competency for workers performing the task.</li></ul><h3>PCBU responsibilities</h3><p>A person conducting a business or undertaking must manage risks so far as reasonably practicable. For hydraulic work, this can include safe isolation procedures, guarding, PPE, maintenance schedules and incident reporting processes.</p><h3>Incident awareness</h3><p>Hydraulic injection injuries, uncontrolled release of stored energy and hose failures near people can be serious events. Report incidents according to site procedure and regulatory requirements. Do not return equipment to service until the cause has been addressed.</p>",
+  "8": "<h3>Why maintenance matters</h3><p>Hydraulic hose assemblies are wear items. They age, flex, rub, heat cycle and fatigue. Scheduled inspection prevents small issues from becoming oil spills, machine downtime or injuries.</p><h3>Inspection intervals</h3><p>Inspection frequency depends on risk, duty cycle and environment. A lightly used indoor machine may need less frequent inspection than mobile plant exposed to vibration, dust, UV, heat and impact. Follow site procedure and increase inspection frequency after failures or harsh service.</p><h3>Replacement triggers</h3><ul><li>Exposed reinforcement, cuts, crushed sections or severe abrasion.</li><li>Leaks at fittings, ferrules or hose body.</li><li>Cracked, hardened, blistered or swollen covers.</li><li>Hoses routed below minimum bend radius.</li><li>Evidence of twist, kinking or pulling at fittings.</li><li>Unknown age or missing identification in critical applications.</li></ul><h3>Storage and cleanliness</h3><p>Store hose away from UV, ozone, heat, chemicals and sharp edges. Cap finished assemblies to prevent contamination. Cleanliness is critical because small particles can damage precision hydraulic components.</p><h3>Best practice habits</h3><p>Tag high-risk hoses, document replacements and review failures for root cause. Avoid replacing like-for-like if the original route caused abrasion or twist. A good maintenance program improves safety, uptime and total hose life.</p><h3>Final competency focus</h3><p>A competent technician selects the right hose, assembles it correctly, installs it without stress, verifies safety and records the work clearly.</p>"
+};
+
+const MODULE_QUIZZES={
+  "1": {
+    "questions": [
+      {
+        "q": "In a hydraulic system, what does pressure primarily create?",
+        "options": [
+          "Flow speed",
+          "Force",
+          "Fluid storage",
+          "Cooling capacity"
+        ],
+        "answer": 1,
+        "explanation": "Pressure acting over an area creates force at the actuator."
+      },
+      {
+        "q": "What does flow primarily affect in a hydraulic actuator?",
+        "options": [
+          "Movement speed",
+          "Maximum force rating",
+          "Thread type",
+          "Oil colour"
+        ],
+        "answer": 0,
+        "explanation": "Flow rate controls how quickly actuators move."
+      },
+      {
+        "q": "What does Pascal's law explain?",
+        "options": [
+          "Fluid compresses easily under pressure",
+          "Pressure in a confined fluid is transmitted equally",
+          "All pumps create pressure without resistance",
+          "Air and oil behave the same"
+        ],
+        "answer": 1,
+        "explanation": "Pascal's law is the foundation of hydraulic force transfer."
+      },
+      {
+        "q": "Which component creates flow in a hydraulic circuit?",
+        "options": [
+          "Reservoir",
+          "Pump",
+          "Cylinder rod",
+          "Hose cover"
+        ],
+        "answer": 1,
+        "explanation": "The pump moves fluid through the circuit; pressure occurs when flow meets resistance."
+      },
+      {
+        "q": "What is the safest way to check for a suspected pinhole leak?",
+        "options": [
+          "Run your hand along the hose",
+          "Use cardboard or an inspection aid",
+          "Tighten every fitting under pressure",
+          "Ignore it until oil is visible"
+        ],
+        "answer": 1,
+        "explanation": "Never use hands; high-pressure injection injuries require urgent care."
+      }
+    ]
+  },
+  "2": {
+    "questions": [
+      {
+        "q": "Which hose layer is most responsible for carrying pressure load?",
+        "options": [
+          "Outer cover",
+          "Reinforcement",
+          "Layline ink",
+          "Dust cap"
+        ],
+        "answer": 1,
+        "explanation": "Wire braid or spiral reinforcement carries the main pressure load."
+      },
+      {
+        "q": "Why must the inner tube be matched to the fluid?",
+        "options": [
+          "To improve label visibility",
+          "To prevent swelling, cracking or degradation",
+          "To make the hose heavier",
+          "To reduce the need for fittings"
+        ],
+        "answer": 1,
+        "explanation": "Fluid incompatibility can damage the tube and shorten service life."
+      },
+      {
+        "q": "Spiral wire hoses are generally selected for what type of service?",
+        "options": [
+          "Low-pressure garden water",
+          "Higher pressure and impulse-heavy service",
+          "Electrical insulation only",
+          "Air conditioning drain lines"
+        ],
+        "answer": 1,
+        "explanation": "Spiral reinforcement is commonly used where pressure and impulse demands are high."
+      },
+      {
+        "q": "What information is commonly found on a hose layline?",
+        "options": [
+          "Operator name only",
+          "Hose type, size and pressure rating",
+          "Machine fuel level",
+          "Crimp machine serial password"
+        ],
+        "answer": 1,
+        "explanation": "The layline helps identify hose specification and suitability."
+      },
+      {
+        "q": "What controls the final pressure rating of an assembly?",
+        "options": [
+          "The highest-rated part",
+          "The lowest-rated component",
+          "The longest hose length only",
+          "The newest fitting only"
+        ],
+        "answer": 1,
+        "explanation": "The assembly must be rated by its weakest suitable component."
+      }
+    ]
+  },
+  "3": {
+    "questions": [
+      {
+        "q": "Why is fitting identification important?",
+        "options": [
+          "Most fittings seal the same way",
+          "Wrong fittings can leak or damage threads",
+          "It only affects appearance",
+          "It removes the need for torque"
+        ],
+        "answer": 1,
+        "explanation": "Similar-looking fittings can have different threads and sealing methods."
+      },
+      {
+        "q": "Which fitting type uses a 37-degree flare seat?",
+        "options": [
+          "JIC",
+          "NPT",
+          "BSP bonded washer only",
+          "SAE flange"
+        ],
+        "answer": 0,
+        "explanation": "JIC fittings seal on a 37-degree flare."
+      },
+      {
+        "q": "What is the role of the thread in many hydraulic connections?",
+        "options": [
+          "It always provides the seal",
+          "It holds the connection together",
+          "It controls oil viscosity",
+          "It measures pump flow"
+        ],
+        "answer": 1,
+        "explanation": "The thread provides mechanical retention; sealing may occur elsewhere."
+      },
+      {
+        "q": "Which connection is known for strong leak resistance using an O-ring face?",
+        "options": [
+          "ORFS",
+          "Plain hose barb",
+          "Damaged NPT",
+          "Unmatched metric thread"
+        ],
+        "answer": 0,
+        "explanation": "ORFS stands for O-ring face seal."
+      },
+      {
+        "q": "What should you do if a connection standard is uncertain?",
+        "options": [
+          "Force it tighter",
+          "Mix closest-looking parts",
+          "Measure and compare against a fitting chart",
+          "Use any sealant as the only fix"
+        ],
+        "answer": 2,
+        "explanation": "Measurement and seal-face identification prevent mismatch failures."
+      }
+    ]
+  },
+  "4": {
+    "questions": [
+      {
+        "q": "What is working pressure?",
+        "options": [
+          "The normal maximum service pressure rating",
+          "The pressure where the hose bursts in a lab",
+          "The pump brand name",
+          "A measurement of hose length"
+        ],
+        "answer": 0,
+        "explanation": "Working pressure is the approved service limit."
+      },
+      {
+        "q": "Why are pressure spikes important?",
+        "options": [
+          "They only happen when the machine is off",
+          "They can cause early hose failure through impulse loading",
+          "They improve hose flexibility",
+          "They remove contamination"
+        ],
+        "answer": 1,
+        "explanation": "Repeated pressure spikes can fatigue hose assemblies."
+      },
+      {
+        "q": "What does minimum bend radius protect against?",
+        "options": [
+          "Over-tight routing and reinforcement stress",
+          "Wrong oil colour",
+          "Too much label text",
+          "Low battery voltage"
+        ],
+        "answer": 0,
+        "explanation": "Bending tighter than allowed stresses the hose and shortens life."
+      },
+      {
+        "q": "Which item should be included when determining assembly pressure suitability?",
+        "options": [
+          "Only the hose cover colour",
+          "Hose, fittings, adapters and crimp specification",
+          "Only the longest component",
+          "Only the invoice description"
+        ],
+        "answer": 1,
+        "explanation": "Every pressure-containing component matters."
+      },
+      {
+        "q": "What is a common safe design factor used in many hydraulic hose ratings?",
+        "options": [
+          "1:1",
+          "2:1",
+          "4:1",
+          "20:1 for all uses"
+        ],
+        "answer": 2,
+        "explanation": "Many hoses use a 4:1 design factor between working and burst pressure."
+      }
+    ]
+  },
+  "5": {
+    "questions": [
+      {
+        "q": "What should be confirmed before crimping?",
+        "options": [
+          "Hose type, fitting series and crimp specification",
+          "Only the hose colour",
+          "Only customer initials",
+          "Only ambient temperature"
+        ],
+        "answer": 0,
+        "explanation": "Compatibility with approved crimp data is essential."
+      },
+      {
+        "q": "Why mark insertion depth?",
+        "options": [
+          "To decorate the hose",
+          "To verify the fitting has not backed out during crimping",
+          "To increase pressure rating",
+          "To replace cleaning"
+        ],
+        "answer": 1,
+        "explanation": "A depth mark gives a quick visual confirmation of correct insertion."
+      },
+      {
+        "q": "What should finished crimp quality be checked against?",
+        "options": [
+          "Appearance only",
+          "Specified crimp diameter",
+          "The loudest machine setting",
+          "The operator's memory"
+        ],
+        "answer": 1,
+        "explanation": "Measure the finished crimp to the manufacturer's specification."
+      },
+      {
+        "q": "Why clean the hose after cutting?",
+        "options": [
+          "To remove contamination before it enters the hydraulic system",
+          "To make the cover shinier",
+          "To reduce fitting size",
+          "To avoid using caps"
+        ],
+        "answer": 0,
+        "explanation": "Cutting debris can damage valves, pumps and actuators."
+      },
+      {
+        "q": "What is unsafe during assembly?",
+        "options": [
+          "Using approved die data",
+          "Measuring crimp diameter",
+          "Guessing settings for similar-looking fittings",
+          "Capping finished assemblies"
+        ],
+        "answer": 2,
+        "explanation": "Similar fittings can need different crimp settings."
+      }
+    ]
+  },
+  "6": {
+    "questions": [
+      {
+        "q": "What is the key safety rule for leak detection?",
+        "options": [
+          "Use your hand to feel for oil spray",
+          "Never use bare hands near suspected high-pressure leaks",
+          "Only inspect at full pressure",
+          "Tighten first and ask later"
+        ],
+        "answer": 1,
+        "explanation": "High-pressure oil injection injuries can be severe."
+      },
+      {
+        "q": "Oil at the ferrule can indicate what?",
+        "options": [
+          "Possible poor crimp, pull-out or fitting issue",
+          "Correct installation every time",
+          "That the hose is too clean",
+          "Only a paint defect"
+        ],
+        "answer": 0,
+        "explanation": "Ferrule leakage should be investigated carefully."
+      },
+      {
+        "q": "Which tool can help detect leaks without touching the hose?",
+        "options": [
+          "Cardboard or inspection mirror",
+          "Bare finger",
+          "Open flame",
+          "Hammer"
+        ],
+        "answer": 0,
+        "explanation": "Non-contact checks reduce injection injury risk."
+      },
+      {
+        "q": "What should be done before tightening or replacing hydraulic parts?",
+        "options": [
+          "Depressurise and isolate the system",
+          "Increase pump speed",
+          "Stand directly over the leak",
+          "Remove all guarding permanently"
+        ],
+        "answer": 0,
+        "explanation": "Stored energy must be controlled before work begins."
+      },
+      {
+        "q": "Why inspect routing after replacing a failed hose?",
+        "options": [
+          "The same poor route may cause repeat failure",
+          "It changes oil colour",
+          "It updates the certificate automatically",
+          "It removes the need for clamps"
+        ],
+        "answer": 0,
+        "explanation": "Root cause often involves abrasion, bend radius or movement."
+      }
+    ]
+  },
+  "7": {
+    "questions": [
+      {
+        "q": "What does WHS risk management require in hydraulic work?",
+        "options": [
+          "Ignoring stored energy",
+          "Safe systems of work and competent people",
+          "Only faster repairs",
+          "No records"
+        ],
+        "answer": 1,
+        "explanation": "WHS duties include managing foreseeable risks and competency."
+      },
+      {
+        "q": "Why is traceability useful for hose assemblies?",
+        "options": [
+          "It supports records, maintenance and failure review",
+          "It replaces correct assembly practice",
+          "It hides pressure ratings",
+          "It is only decorative"
+        ],
+        "answer": 0,
+        "explanation": "Traceability helps prove what was installed and when."
+      },
+      {
+        "q": "Which details are useful to record?",
+        "options": [
+          "Hose type, fitting type, pressure rating and crimp data",
+          "Only hose colour",
+          "Only the technician's lunch time",
+          "Nothing if it looks fine"
+        ],
+        "answer": 0,
+        "explanation": "Technical records support compliance and future maintenance."
+      },
+      {
+        "q": "What should happen after a serious hydraulic incident?",
+        "options": [
+          "Continue operation immediately",
+          "Report and investigate according to site and regulatory requirements",
+          "Delete records",
+          "Only wipe away oil"
+        ],
+        "answer": 1,
+        "explanation": "Serious events need reporting and root-cause control."
+      },
+      {
+        "q": "Who has duties under Australian WHS law in a workplace?",
+        "options": [
+          "Only visitors",
+          "PCBUs and workers have relevant duties",
+          "Only equipment manufacturers overseas",
+          "No one if the job is urgent"
+        ],
+        "answer": 1,
+        "explanation": "WHS duties apply to PCBUs and workers within their roles."
+      }
+    ]
+  },
+  "8": {
+    "questions": [
+      {
+        "q": "Why should hydraulic hoses be inspected on a schedule?",
+        "options": [
+          "They are wear items exposed to age, flex and environment",
+          "They never deteriorate",
+          "Only new hoses fail",
+          "It is only for appearance"
+        ],
+        "answer": 0,
+        "explanation": "Inspection catches defects before failure."
+      },
+      {
+        "q": "Which condition is a replacement trigger?",
+        "options": [
+          "Exposed reinforcement",
+          "Clear layline text",
+          "Correct routing",
+          "Clean capped ends"
+        ],
+        "answer": 0,
+        "explanation": "Exposed wire reinforcement means the hose is damaged."
+      },
+      {
+        "q": "How should finished hose assemblies be stored?",
+        "options": [
+          "Uncapped in dusty areas",
+          "Away from UV, ozone, heat and chemicals, with ends capped",
+          "Under sharp scrap metal",
+          "Bent tighter than minimum radius"
+        ],
+        "answer": 1,
+        "explanation": "Good storage protects hose materials and cleanliness."
+      },
+      {
+        "q": "What should be done after a repeated hose failure?",
+        "options": [
+          "Replace exactly the same way without review",
+          "Review root cause such as routing, abrasion or twist",
+          "Increase pressure beyond rating",
+          "Remove all clamps"
+        ],
+        "answer": 1,
+        "explanation": "Repeated failures usually indicate an unresolved cause."
+      },
+      {
+        "q": "Which habit supports long-term maintenance quality?",
+        "options": [
+          "Document replacements and inspections",
+          "Discard all records",
+          "Ignore unknown hose age in critical use",
+          "Install with twist"
+        ],
+        "answer": 0,
+        "explanation": "Records support safer maintenance decisions."
+      }
+    ]
+  }
+};
+
+let S={user:null,company:null,progress:{},scores:{},quizData:null,currentMod:null,currentQ:0,answers:[]};
+const PASS=80;
+
+function save(){try{localStorage.setItem('ch2_state',JSON.stringify(S))}catch(e){}}
+function load(){try{const d=localStorage.getItem('ch2_state');if(d)S=Object.assign(S,JSON.parse(d))}catch(e){}}
+
+function toast(msg,type='info'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className=`toast toast-${type} show`;
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.display='none'});
+  const s=document.getElementById('screen-'+id);
+  if(s){s.classList.add('active');s.style.removeProperty('display');
+    if(id==='dashboard')renderDash();
+    if(id==='cert')renderCert();
+  }
+}
+
+function doLogin(){
+  const n=document.getElementById('login-name').value.trim();
+  const c=document.getElementById('login-company').value.trim();
+  if(!n){toast('Please enter your name','error');return;}
+  S.user=n;S.company=c||'Independent';save();
+  show('dashboard');
+}
+function logout(){S.user=null;save();show('login');}
+function goBack(){show('dashboard');}
+function isUnlocked(id){return id===1||S.progress[(id-1)+'']==='pass';}
+
+function renderDash(){
+  document.getElementById('nav-user').textContent=S.user+' · '+S.company;
+  document.getElementById('dash-name').textContent=S.user.split(' ')[0];
+  document.getElementById('stat-company').textContent=S.company;
+  const done=Object.values(S.progress).filter(v=>v==='pass').length;
+  const pct=Math.round(done/MODULES.length*100);
+  document.getElementById('stat-done').textContent=done;
+  document.getElementById('stat-pct').textContent=pct+'%';
+  document.getElementById('stat-bar').style.width=pct+'%';
+  const scores=Object.values(S.scores).filter(v=>typeof v==='number');
+  document.getElementById('stat-best').textContent=scores.length?Math.max(...scores)+'%':'—';
+  const allDone=done===MODULES.length;
+  document.getElementById('stat-status').innerHTML=allDone?`<span style="color:var(--success)">Certified</span>`:`<span style="color:var(--blue)">In progress</span>`;
+  document.getElementById('cert-btn-wrap').style.display=allDone?'block':'none';
+  const grid=document.getElementById('module-grid');grid.innerHTML='';
+  MODULES.forEach(m=>{
+    const unlocked=isUnlocked(m.id);
+    const comp=S.progress[m.id+'']==='pass';
+    const score=S.scores[m.id+''];
+    const d=document.createElement('div');
+    d.className='mod-card'+(unlocked?'':' locked')+(comp?' done':'');
+    d.innerHTML=`
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <i class="ti ${m.icon}" style="font-size:18px;color:${comp?'var(--success)':unlocked?'var(--blue)':'var(--muted)'}" aria-hidden="true"></i>
+          <span style="font-size:13px;font-weight:500">${m.title}</span>
+        </div>
+        <span class="tag ${comp?'tag-success':unlocked?'tag-blue':'tag-locked'}">${comp?'Complete':unlocked?'Available':'Locked'}</span>
+      </div>
+      <p style="font-size:12px;color:var(--muted2);line-height:1.65;margin-bottom:${score!==undefined?'10px':'0'}">${m.intro}</p>
+      ${score!==undefined?`<div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--muted)">Best score</span><span style="font-size:12px;font-weight:500;color:${score>=PASS?'var(--success)':'var(--danger)'}">${score}%</span></div>`:''}
+    `;
+    if(unlocked)d.onclick=()=>openModule(m.id);
+    grid.appendChild(d);
+  });
+}
+
+async function openModule(id){
+  const mod=MODULES.find(m=>m.id===id);
+  S.currentMod=id;
+  const total=MODULES.length;
+  const pct=Math.round((id-1)/total*100);
+  document.getElementById('lesson-progress-bar').style.width=pct+'%';
+  document.getElementById('lesson-nav-title').textContent='MODULE '+id+' OF '+total;
+  document.getElementById('lesson-badge').textContent='Module '+id+' — '+mod.title;
+  document.getElementById('lesson-title').textContent=mod.title;
+  document.getElementById('lesson-intro').textContent=mod.intro;
+  document.getElementById('lesson-content').innerHTML='';
+  document.getElementById('btn-start-quiz').style.display='none';
+  document.getElementById('lesson-phase').style.display='block';
+  document.getElementById('quiz-phase').style.display='none';
+  document.getElementById('result-phase').style.display='none';
+  show('lesson');
+  await loadLesson(mod);
+}
+
+function loadLesson(mod){
+  const lc=document.getElementById('lesson-content');
+  const ll=document.getElementById('lesson-loading');
+  ll.style.display='none';
+  lc.innerHTML=COURSE_CONTENT[mod.id]||'<p style="color:var(--danger);font-size:13px">Course content is not available for this module yet.</p>';
+  lc.querySelectorAll('h3').forEach(h=>{h.style.cssText='color:var(--text);font-size:14px;font-weight:500;margin:20px 0 8px;letter-spacing:.01em'});
+  lc.querySelectorAll('p').forEach(p=>{p.style.marginBottom='10px'});
+  lc.querySelectorAll('ul').forEach(u=>{u.style.cssText='padding-left:18px;margin-bottom:12px'});
+  lc.querySelectorAll('li').forEach(li=>{li.style.cssText='margin-bottom:5px;color:#a0aec8'});
+  document.getElementById('btn-start-quiz').style.display='inline-flex';
+}
+
+function startQuiz(){
+  S.currentQ=0;S.answers=[];S.quizData=null;
+  document.getElementById('lesson-phase').style.display='none';
+  document.getElementById('quiz-phase').style.display='block';
+  document.getElementById('result-phase').style.display='none';
+  const ql=document.getElementById('quiz-loading');
+  ql.style.display='none';
+  document.getElementById('quiz-q-area').innerHTML='';
+  const mod=MODULES.find(m=>m.id===S.currentMod);
+  document.getElementById('quiz-mod-label').textContent='Module '+S.currentMod+' — Quiz';
+  S.quizData=MODULE_QUIZZES[S.currentMod+''];
+  if(!S.quizData||!S.quizData.questions){
+    document.getElementById('quiz-q-area').innerHTML=`<p style="color:var(--danger);font-size:13px">Quiz questions are not available for this module yet.</p>`;
+    return;
+  }
+  renderQ();
+}
+
+let picked=null;
+function renderQ(){
+  picked=null;
+  const qs=S.quizData.questions;
+  const i=S.currentQ;
+  const pct=Math.round(i/qs.length*100);
+  document.getElementById('quiz-progress-text').textContent=`Question ${i+1} of ${qs.length}`;
+  document.getElementById('quiz-bar').style.width=pct+'%';
+  const q=qs[i];
+  document.getElementById('quiz-q-area').innerHTML=`
+    <div class="fade-in">
+      <p style="font-size:16px;font-weight:500;line-height:1.65;margin-bottom:20px;color:var(--text)">${q.q}</p>
+      ${q.options.map((o,idx)=>`
+        <div class="radio-opt" id="opt-${idx}" onclick="pickOpt(${idx})">
+          <div style="width:22px;height:22px;border-radius:50%;border:1px solid var(--border2);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted);font-weight:500">${String.fromCharCode(65+idx)}</div>
+          <span style="font-size:13px;line-height:1.65;color:var(--muted2)">${o}</span>
+        </div>`).join('')}
+      <div id="feedback"></div>
+    </div>`;
+}
+
+function pickOpt(idx){
+  if(picked!==null)return;
+  picked=idx;
+  const q=S.quizData.questions[S.currentQ];
+  const correct=q.answer;
+  document.querySelectorAll('.radio-opt').forEach((el,i)=>{
+    if(i===correct)el.classList.add('correct');
+    else if(i===idx)el.classList.add('wrong');
+  });
+  S.answers.push({selected:idx,correct,isRight:idx===correct});
+  const right=idx===correct;
+  const last=S.currentQ+1>=S.quizData.questions.length;
+  document.getElementById('feedback').innerHTML=`
+    <div style="background:${right?'#061510':'#180808'};border:1px solid ${right?'var(--success)':'var(--danger)'};border-radius:6px;padding:13px 16px;margin:12px 0 16px;font-size:13px;color:${right?'var(--success)':'var(--danger)'}">
+      <strong>${right?'Correct':'Incorrect'}</strong>${right?'':' — correct answer: <span style="color:var(--text)">'+q.options[correct]+'</span>'}
+      ${q.explanation?`<p style="font-size:12px;color:var(--muted2);margin-top:6px">${q.explanation}</p>`:''}
+    </div>
+    <button class="btn btn-primary" onclick="nextQ()">${last?'See results <i class="ti ti-flag-check" aria-hidden="true"></i>':'Next question <i class="ti ti-arrow-right" aria-hidden="true"></i>'}</button>`;
+}
+
+function nextQ(){
+  S.currentQ++;
+  if(S.currentQ>=S.quizData.questions.length){showResult();return;}
+  renderQ();
+}
+
+function showResult(){
+  document.getElementById('quiz-phase').style.display='none';
+  document.getElementById('result-phase').style.display='block';
+  const right=S.answers.filter(a=>a.isRight).length;
+  const total=S.answers.length;
+  const score=Math.round(right/total*100);
+  const passed=score>=PASS;
+  if(passed){
+    S.progress[S.currentMod+'']=passed?'pass':S.progress[S.currentMod+''];
+    if(!S.scores[S.currentMod+'']||score>S.scores[S.currentMod+'']){S.scores[S.currentMod+'']=score;}
+    save();toast('Module passed — next module unlocked','success');
+  }else{
+    if(!S.scores[S.currentMod+'']||score>S.scores[S.currentMod+'']){S.scores[S.currentMod+'']=score;save();}
+  }
+  document.getElementById('result-icon').innerHTML=passed
+    ?`<i class="ti ti-award" style="color:var(--blue)" aria-hidden="true"></i>`
+    :`<i class="ti ti-mood-sad" style="color:var(--danger)" aria-hidden="true"></i>`;
+  document.getElementById('result-label').textContent=passed?'Module complete':'Quiz failed';
+  document.getElementById('result-label').style.color=passed?'var(--blue)':'var(--danger)';
+  document.getElementById('result-title').textContent=passed?'Well done — module passed!':'Not quite there';
+  document.getElementById('result-msg').textContent=passed
+    ?`You scored ${right} out of ${total} correct.${S.currentMod<MODULES.length?' The next module is now unlocked.':' You have completed all modules!'}`
+    :`You scored ${right} out of ${total}. You need ${PASS}% to pass. Review the lesson and try again.`;
+  document.getElementById('result-score').textContent=score+'%';
+  document.getElementById('result-score').style.color=passed?'var(--success)':'var(--danger)';
+}
+
+function retryQuiz(){
+  document.getElementById('result-phase').style.display='none';
+  document.getElementById('lesson-phase').style.display='block';
+}
+function showCert(){show('cert');}
+function renderCert(){
+  document.getElementById('cert-name').textContent=S.user||'';
+  document.getElementById('cert-company').textContent=S.company&&S.company!=='Independent'?'Employed by '+S.company:'';
+  document.getElementById('cert-date').textContent=new Date().toLocaleDateString('en-AU',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('cert-mods').textContent=MODULES.length+' of '+MODULES.length;
+}
+
+load();
+if(S.user)show('dashboard');
+
+function initScrollEffects(){
+  const targets=[...document.querySelectorAll('.card,.stat-card,.mod-card,#screen-dashboard > div > div,#screen-lesson > div > div,#screen-cert > div > div,body > div > div')];
+  targets.forEach((el,i)=>{if(el.dataset.revealReady)return;el.dataset.revealReady='1';el.classList.add('reveal');el.style.transitionDelay=Math.min(i*35,220)+'ms';});
+  if(!('IntersectionObserver' in window)){targets.forEach(el=>el.classList.add('in-view'));return;}
+  const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in-view');io.unobserve(e.target);}}),{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  targets.forEach(el=>io.observe(el));
+}
+window.addEventListener('load',initScrollEffects);
+const revealObserver=new MutationObserver(()=>initScrollEffects());
+window.addEventListener('load',()=>revealObserver.observe(document.body,{childList:true,subtree:true}));
+
+</script>
